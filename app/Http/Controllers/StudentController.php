@@ -17,7 +17,7 @@ class StudentController extends Controller
             $student = Student::create($data);
 
             return response()->json([
-                'message' => 'تم إنشاء الحساب بنجاح',
+                'message' => 'عليك الانتظار حتى يتم تأكيد حسابك',
                 'student' => StudentResource::make($student)
             ], 201);
         } catch (\Exception $e) {
@@ -52,6 +52,6 @@ class StudentController extends Controller
     }
 
     public function completeRegistration() {
-        
+
     }
 }
