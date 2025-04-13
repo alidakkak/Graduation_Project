@@ -44,9 +44,9 @@ return [
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
-          ],
+        ],
 
-          'api_student' => [
+        'api_student' => [
             'driver' => 'jwt',
             'provider' => 'students',
             'hash' => false,
@@ -80,6 +80,11 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
+        ],
     ],
 
     /*

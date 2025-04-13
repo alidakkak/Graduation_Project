@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('image');
             $table->string('password');
             $table->boolean('is_registration_complete')->default(0);
+            $table->enum('academic_year', ['1', '2', '3', '4', '5']);
+            $table->enum('specialization', ['1', '2', '3']);
             $table->timestamps();
         });
     }

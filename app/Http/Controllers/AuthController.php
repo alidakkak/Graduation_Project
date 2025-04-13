@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -22,17 +21,18 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         $token = Auth::guard('api')->attempt($credentials);
-        if (!$token) {
+        if (! $token) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 401);
         }
 
         $user = Auth::guard('api')->user();
+
         return response()->json([
-                'user' => $user,
-                'token' => $token,
-            ]);
+            'user' => $user,
+            'token' => $token,
+        ]);
 
     }
 }
