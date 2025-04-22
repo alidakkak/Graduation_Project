@@ -21,6 +21,6 @@ class AnnouncementImage extends Model
 
     public function publicAnnouncement()
     {
-        return $this->belongsTo(PublicAnnouncement::class);
+        return $this->belongsTo(Announcement::class);
     }
 }

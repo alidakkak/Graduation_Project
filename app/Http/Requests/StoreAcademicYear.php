@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePublicAnnouncement extends FormRequest
+class StoreAcademicYear extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,7 @@ class StorePublicAnnouncement extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|nullable',
-            'description' => 'string|nullable',
-            'images' => 'array|nullable',
-            'images.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            'year_name' => 'required|string',
         ];
     }
 }

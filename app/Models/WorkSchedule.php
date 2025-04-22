@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PublicAnnouncement extends Model
+class WorkSchedule extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function images()
+    public function semester()
     {
-        return $this->hasMany(AnnouncementImage::class);
+        return $this->belongsTo(Semester::class);
     }
 }

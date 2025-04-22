@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('public_announcements', function (Blueprint $table) {
+        Schema::create('academic_years', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();
-            $table->text('description')->nullable();
+            $table->string('year_name');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('public_announcements');
+        Schema::dropIfExists('academic_years');
     }
 };

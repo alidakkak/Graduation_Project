@@ -13,19 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('father_name');
-            $table->string('university_number')->unique();
-            $table->string('image');
-            $table->string('password');
-            $table->boolean('is_registration_complete')->default(0);
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->enum('academic_year', [AcademicYear::First_Year, AcademicYear::Second_Year, AcademicYear::Third_Year
-                , AcademicYear::Fourth_Year, AcademicYear::Fifth_Year]);
+                , AcademicYear::Fourth_Year, AcademicYear::Fifth_Year, AcademicYear::General]);
             $table->enum('specialization', [Specialization::Software_Engineering, Specialization::Artificial_Intelligence
-                , Specialization::Networks]);
+                , Specialization::Networks, Specialization::General]);
             $table->timestamps();
         });
     }
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('public_announcements');
     }
 };

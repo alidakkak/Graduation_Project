@@ -75,13 +75,13 @@ class StudentController extends Controller
         $request->validate([
             'university_number' => 'required|numeric',
             'password' => 'required|string',
-            'device_token' => 'required|string'
+            'device_token' => 'required|string',
         ]);
 
         $credentials = $request->only('university_number', 'password');
 
         $token = Auth::guard('api_student')->attempt($credentials);
-        if (!$token) {
+        if (! $token) {
             return response()->json([
                 'message' => 'Unauthorized',
             ], 401);
@@ -95,6 +95,7 @@ class StudentController extends Controller
         }
 
         $user = Auth::guard('api_student')->user();
+
         return response()->json([
             'user' => $user,
             'token' => $token,
