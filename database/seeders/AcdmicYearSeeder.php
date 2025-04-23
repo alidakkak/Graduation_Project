@@ -10,11 +10,11 @@ class AcdmicYearSeeder extends Seeder
     public function run(): void
     {
         $academic_years = [
-            ['name' => '1'],
-            ['name' => '2'],
-            ['name' => '3'],
-            ['name' => '4'],
-            ['name' => '5'],
+            ['year_name' => '1'],
+            ['year_name' => '2'],
+            ['year_name' => '3'],
+            ['year_name' => '4'],
+            ['year_name' => '5'],
 
         ];
 
