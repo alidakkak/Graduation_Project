@@ -22,6 +22,11 @@ class Student extends Authenticatable implements JWTSubject
         return $this->attributes['image'] = '/'.'students_image'.'/'.$newImageName;
     }
 
+    public function deviceTokens()
+    {
+        return $this->hasMany(DeviceToken::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

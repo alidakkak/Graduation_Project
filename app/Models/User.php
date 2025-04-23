@@ -40,13 +40,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->getKey();
     }
 
-    public function conversations()
-    {
-        return $this->belongsToMany(Conversation::class, 'members')
-            ->withPivot(['joined_at', 'role', 'is_block', 'is_mute', 'is_pinned', 'is_archived'])
-            ->latest('last_message_id');
-    }
-
     public function getJWTCustomClaims()
     {
         return [

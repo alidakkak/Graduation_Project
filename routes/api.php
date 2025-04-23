@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('studentRegistration', [StudentController::class, 'studentRegistration']);
-// Conversation
 Route::get('Conversation', GetConversationAction::class);
+Route::post('studentLogin', [StudentController::class, 'login']);
