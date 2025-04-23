@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
@@ -11,6 +10,5 @@ Route::post('login', [AuthController::class, 'login']);
 
 // });
 
-
 Route::get('getStudentNotRegistrationComplete', [StudentController::class, 'getStudentNotRegistrationComplete']);
-Route::patch('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);
+Route::put('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);

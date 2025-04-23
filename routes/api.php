@@ -1,7 +1,7 @@
 <?php
 
+use App\Actions\Website\Conversation\GetConversationAction;
 use App\Http\Controllers\StudentController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('studentRegistration', [StudentController::class, 'studentRegistration']);
+// Conversation
+Route::get('Conversation', GetConversationAction::class);

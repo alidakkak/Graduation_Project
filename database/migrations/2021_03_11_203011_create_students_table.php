@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('university_number')->unique();
             $table->string('image');
             $table->string('password');
+            $table->boolean('verified')->nullable();
             $table->boolean('is_registration_complete')->default(0);
             $table->timestamps();
         });

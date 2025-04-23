@@ -1,5 +1,6 @@
 <?php
 
+use App\Statuses\SpecializationStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,9 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('academic_year_id')->constrained('academic_years')->cascadeOnDelete();
+            $table->enum('specialization', [SpecializationStatus::SOFTWARE,SpecializationStatus::GENERAL, SpecializationStatus::NETWORKS, SpecializationStatus::AI])->nullable();
             $table->timestamps();
         });
     }

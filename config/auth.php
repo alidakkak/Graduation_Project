@@ -44,9 +44,9 @@ return [
         'api' => [
             'driver' => 'jwt',
             'provider' => 'users',
-          ],
+        ],
 
-          'api_student' => [
+        'api_student' => [
             'driver' => 'jwt',
             'provider' => 'students',
             'hash' => false,
