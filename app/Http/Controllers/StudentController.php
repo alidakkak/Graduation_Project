@@ -61,7 +61,20 @@ class StudentController extends Controller
         ], 200);
     }
 
+    public function getStudentNotRegistrationComplete()
+    {
+        $students = Student::paginate();
+        $pagination = [
+            'total' => $students->total(),
+            'current_page' => $students->currentPage(),
+            'last_page' => $students->lastPage(),
+            'per_page' => $students->perPage(),
+        ];
+        $students = StudentResource::collection($students);
 
+        return ApiResponseHelper::sendResponseWithPagination(new Result($students, 'get employees successfully', $pagination));
+
+    }
     public function login(Request $request)
     {
         $request->validate([
