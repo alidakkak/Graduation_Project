@@ -9,12 +9,6 @@ use App\Http\Controllers\WorkScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
-
-// Route::group(['middleware' => 'check_user:1'], function () {
-
-// });
-
-//// Student
 Route::get('getStudentNotRegistrationComplete', [StudentController::class, 'getStudentNotRegistrationComplete']);
 Route::patch('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);
 

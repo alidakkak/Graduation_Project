@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\ApiHelper\ApiResponseHelper;
+use App\ApiHelper\Result;
 use App\Http\Requests\StoreCompleteRegistration;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\StudentResource;
@@ -40,14 +41,6 @@ class StudentController extends Controller
             ], 500);
         }
     }
-
-    public function getStudentNotRegistrationComplete()
-    {
-        $students = Student::where('is_registration_complete', 0)->get();
-
-        return StudentResource::collection($students);
-    }
-
     public function checkStudentData($studentID)
     {
         $student = Student::where('id', $studentID)->first();
@@ -59,7 +52,7 @@ class StudentController extends Controller
         }
 
         $student->update([
-            'is_registration_complete' => 1,
+            'verified' => ! $student->verified,
         ]);
 
         return response()->json([
@@ -68,8 +61,20 @@ class StudentController extends Controller
         ], 200);
     }
 
-    public function completeRegistration(StoreCompleteRegistration $request) {}
+    public function getStudentNotRegistrationComplete()
+    {
+        $students = Student::paginate();
+        $pagination = [
+            'total' => $students->total(),
+            'current_page' => $students->currentPage(),
+            'last_page' => $students->lastPage(),
+            'per_page' => $students->perPage(),
+        ];
+        $students = StudentResource::collection($students);
 
+        return ApiResponseHelper::sendResponseWithPagination(new Result($students, 'get employees successfully', $pagination));
+
+    }
     public function login(Request $request)
     {
         $request->validate([

@@ -39,4 +39,10 @@ class Student extends Authenticatable implements JWTSubject
             'name' => $this->name,
         ];
     }
+
+    public function conversations()
+    {
+        return $this->belongsToMany(Conversation::class, 'members')
+            ->latest('last_message_id');
+    }
 }

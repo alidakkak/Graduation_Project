@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('university_number')->unique();
             $table->string('image');
             $table->string('password');
+            $table->boolean('verified')->nullable();
             $table->boolean('is_registration_complete')->default(0);
             $table->enum('academic_year', [AcademicYear::First_Year, AcademicYear::Second_Year, AcademicYear::Third_Year
                 , AcademicYear::Fourth_Year, AcademicYear::Fifth_Year]);

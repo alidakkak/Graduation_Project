@@ -12,10 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => '00000000',
-        ]);
+
+        $this->call([StudentSeeder::class,AcdmicYearSeeder::class, SubjectSeeder::class,ConversationSeeder::class ]);
     }
 }
