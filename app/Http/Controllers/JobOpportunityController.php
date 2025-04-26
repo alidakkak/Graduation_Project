@@ -55,18 +55,22 @@ class JobOpportunityController extends Controller
             }
             $jobOpportunity->update($request->all());
 
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $index => $image) {
-                    $jobOpportunityImage = $jobOpportunity->images()->skip($index)->first();
+            if ($request->has('keepImages')) {
+                $keepImages = $request->input('keepImages', []);
 
-                    if ($jobOpportunityImage) {
-                        $jobOpportunityImage->image = $image;
-                        $jobOpportunityImage->save();
-                    } else {
-                        $jobOpportunity->images()->create([
-                            'image' => $image,
-                        ]);
-                    }
+                $jobOpportunity->images()
+                    ->whereNotIn('id', $keepImages)
+                    ->each(function ($image) {
+                        // Storage::delete($image->image);
+                        $image->delete();
+                    });
+            }
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $jobOpportunity->images()->create([
+                        'image' => $image,
+                    ]);
                 }
             }
 
@@ -114,5 +118,14 @@ class JobOpportunityController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function switchJobIsExpired($id)
+    {
+        $job = JobOpportunity::find($id);
+        $job->update([
+           'is_expired' => ! $job->is_expired ,
+        ]);
+        return response()->json(['message' => 'تم التعديل بنجاح'], 200);
     }
 }

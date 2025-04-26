@@ -20,6 +20,8 @@ class PublicAnnouncementResource extends JsonResource
                 'title' => $this->title,
                 'description' => $this->description,
                 'created_at' => $this->created_at->diffForHumans(),
+                'academicYearName' => $this->getAcademicYearName(),
+                'specializationName' => $this->getSpecializationName(),
                 'images' => $this->images->map(function ($image) {
                     return [
                         'id' => $image->id,
@@ -27,5 +29,28 @@ class PublicAnnouncementResource extends JsonResource
                     ];
                 }),
             ];
+    }
+    private function getAcademicYearName(): string
+    {
+        return match ($this->academic_year) {
+            '1' => 'السنة الأولى',
+            '2' => 'السنة الثانية',
+            '3' => 'السنة الثالثة',
+            '4' => 'السنة الرابعة',
+            '5' => 'السنة الخامسة',
+            '6' => 'عام',
+            default => 'غير معروفة',
+        };
+    }
+
+    private function getSpecializationName(): string
+    {
+        return match ($this->specialization) {
+            '1' => 'هندسة برمجيات',
+            '2' => 'ذكاء اصطناعي',
+            '3' => 'شبكات',
+            '4' => 'عام',
+            default => 'null',
+        };
     }
 }
