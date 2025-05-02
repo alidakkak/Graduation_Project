@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
@@ -17,9 +18,7 @@ class WorkScheduleResource extends JsonResource
 
             if (in_array($item->academic_level, [1, 2, 3])) {
                 $result[$yearName][] = $this->formatSchedule($item);
-            }
-
-            elseif (in_array($item->academic_level, [4, 5])) {
+            } elseif (in_array($item->academic_level, [4, 5])) {
                 $specializationName = $this->getSpecializationName($item->specialization);
                 $result[$yearName][$specializationName][] = $this->formatSchedule($item);
             }
@@ -53,12 +52,13 @@ class WorkScheduleResource extends JsonResource
     private function formatSchedule($item): array
     {
         return [
-            'course_name'     => $item->course_name,
+            'course_name' => $item->course_name,
             'instructor_name' => $item->instructor_name,
-            'day'             => $item->day,
-            'start_time'      => $item->start_time,
-            'end_time'        => $item->end_time,
-            'room'            => $item->room,
+            'day' => $item->day,
+            'start_time' => $item->start_time,
+            'end_time' => $item->end_time,
+            'room' => $item->room,
+            'branch' => $item->branch,
         ];
     }
 }

@@ -4,12 +4,17 @@ namespace App\Statuses;
 
 class JobType
 {
-    public const FULL_TIME     = 1;
-    public const PART_TIME     = 2;
-    public const INTERNSHIP    = 3;
-    public const FREELANCE     = 4;
-    public const TEMPORARY     = 5;
-    public const REMOTE        = 6;
+    public const FULL_TIME = 1;
+
+    public const PART_TIME = 2;
+
+    public const INTERNSHIP = 3;
+
+    public const FREELANCE = 4;
+
+    public const TEMPORARY = 5;
+
+    public const REMOTE = 6;
 
     public static array $types = [
         self::FULL_TIME,
@@ -23,12 +28,12 @@ class JobType
     public static function labels(): array
     {
         return [
-            self::FULL_TIME     => 'دوام كامل',
-            self::PART_TIME     => 'دوام جزئي',
-            self::INTERNSHIP    => 'تدريب',
-            self::FREELANCE     => 'عمل حر',
-            self::TEMPORARY     => 'مؤقت',
-            self::REMOTE        => 'عن بُعد',
+            self::FULL_TIME => 'دوام كامل',
+            self::PART_TIME => 'دوام جزئي',
+            self::INTERNSHIP => 'تدريب',
+            self::FREELANCE => 'عمل حر',
+            self::TEMPORARY => 'مؤقت',
+            self::REMOTE => 'عن بُعد',
         ];
     }
 

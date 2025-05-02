@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
-use App\Http\Requests\StoreCompleteRegistration;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
@@ -41,6 +41,7 @@ class StudentController extends Controller
             ], 500);
         }
     }
+
     public function checkStudentData($studentID)
     {
         $student = Student::where('id', $studentID)->first();
@@ -75,6 +76,7 @@ class StudentController extends Controller
         return ApiResponseHelper::sendResponseWithPagination(new Result($students, 'get employees successfully', $pagination));
 
     }
+
     public function login(Request $request)
     {
         $request->validate([

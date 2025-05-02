@@ -30,6 +30,7 @@ class PublicAnnouncementResource extends JsonResource
                 }),
             ];
     }
+
     private function getAcademicYearName(): string
     {
         return match ($this->academic_year) {

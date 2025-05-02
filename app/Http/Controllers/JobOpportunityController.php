@@ -124,8 +124,9 @@ class JobOpportunityController extends Controller
     {
         $job = JobOpportunity::find($id);
         $job->update([
-           'is_expired' => ! $job->is_expired ,
+            'is_expired' => ! $job->is_expired,
         ]);
+
         return response()->json(['message' => 'تم التعديل بنجاح'], 200);
     }
 }

@@ -22,16 +22,16 @@ class UpdateWorkSchedule extends FormRequest
     public function rules(): array
     {
         return [
-            'semester_id'      => 'sometimes|exists:semesters,id',
-            'academic_level'   => 'sometimes|integer|min:1|max:5',
-            'specialization'   => 'nullable|string',
+            'semester_id' => 'sometimes|exists:semesters,id',
+            'academic_level' => 'sometimes|integer|min:1|max:5',
+            'specialization' => 'nullable|string',
 
-            'course_name'      => 'sometimes|string',
-            'instructor_name'  => 'sometimes|string',
-            'day'              => 'sometimes|string',
-            'start_time'       => 'sometimes|date_format:H:i',
-            'end_time'         => 'sometimes|date_format:H:i|after:start_time',
-            'room'             => 'sometimes|string',
+            'course_name' => 'sometimes|string',
+            'instructor_name' => 'sometimes|string',
+            'day' => 'sometimes|string',
+            'start_time' => 'sometimes|date_format:H:i',
+            'end_time' => 'sometimes|date_format:H:i|after:start_time',
+            'room' => 'sometimes|string',
         ];
     }
 }

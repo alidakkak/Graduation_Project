@@ -18,8 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('company');
             $table->string('location');
-            $table->enum('job_type', [JobType::FULL_TIME, JobType::PART_TIME, JobType::INTERNSHIP, JobType::FREELANCE
-            , JobType::TEMPORARY, JobType::REMOTE
+            $table->enum('job_type', [JobType::FULL_TIME, JobType::PART_TIME, JobType::INTERNSHIP, JobType::FREELANCE, JobType::TEMPORARY, JobType::REMOTE,
             ]);
             $table->boolean('is_expired')->default(false);
             $table->timestamps();
