@@ -58,6 +58,7 @@ class WorkScheduleResource extends JsonResource
             'start_time' => $item->start_time,
             'end_time' => $item->end_time,
             'room' => $item->room,
+            'branch' => $item->branch,
         ];
     }
 }

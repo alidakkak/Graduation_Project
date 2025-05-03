@@ -25,6 +25,7 @@ Route::post('jobOpportunity/{id}', [JobOpportunityController::class, 'update']);
 Route::get('jobOpportunities', [JobOpportunityController::class, 'index']);
 Route::get('jobOpportunity/{id}', [JobOpportunityController::class, 'show']);
 Route::delete('jobOpportunity/{id}', [JobOpportunityController::class, 'delete']);
+Route::put('switchJobIsExpired/{id}', [JobOpportunityController::class, 'switchJobIsExpired']);
 
 // // Academic Year
 Route::post('academicYear', [AcademicYearController::class, 'store']);

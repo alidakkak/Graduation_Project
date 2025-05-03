@@ -22,8 +22,11 @@ class StoreJobOpportunity extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|nullable',
-            'description' => 'string|nullable',
+            'title' => 'string|required',
+            'description' => 'string|required',
+            'company' => 'string|required',
+            'location' => 'string|required',
+            'job_type' => 'required|in:1,2,3,4,5,6',
             'images' => 'array|nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ];

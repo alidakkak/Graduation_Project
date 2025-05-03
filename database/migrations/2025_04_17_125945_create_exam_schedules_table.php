@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('exam_schedules', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('semester_id')->constrained('semesters')->cascadeOnDelete();
+            $table->integer('academic_level');
+            $table->string('specialization')->nullable();
+            $table->string('subject_name');
+            $table->string('day');
+            $table->date('date');
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

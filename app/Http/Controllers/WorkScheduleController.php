@@ -21,6 +21,7 @@ class WorkScheduleController extends Controller
             ->orderBy('academic_level')
             ->orderBy('specialization')
             ->orderByRaw("FIELD(day, 'الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس')")
+            ->orderBy('branch')
             ->orderBy('start_time')
             ->get();
 
@@ -47,6 +48,7 @@ class WorkScheduleController extends Controller
                     'start_time' => $request->start_time[$index],
                     'end_time' => $request->end_time[$index],
                     'room' => $request->room[$index],
+                    'branch' => $request->branch[$index],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];

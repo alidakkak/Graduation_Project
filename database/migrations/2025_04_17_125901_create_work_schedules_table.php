@@ -22,6 +22,7 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->string('room');
+            $table->enum('branch', ['1', '2', '3'])->nullable();
             $table->timestamps();
         });
     }

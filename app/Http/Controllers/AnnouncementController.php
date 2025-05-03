@@ -73,32 +73,38 @@ class AnnouncementController extends Controller
     {
         try {
             DB::beginTransaction();
+
             $announcement = Announcement::find($Id);
             if (! $announcement) {
                 return response()->json(['message' => 'Not Found'], 404);
             }
+
             $announcement->update($request->all());
 
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $index => $image) {
-                    $announcementImage = $announcement->images()->skip($index)->first();
+            if ($request->has('keepImages')) {
+                $keepImages = $request->input('keepImages', []);
 
-                    if ($announcementImage) {
-                        $announcementImage->image = $image;
-                        $announcementImage->save();
-                    } else {
-                        $announcement->images()->create([
-                            'image' => $image,
-                        ]);
-                    }
+                $announcement->images()
+                    ->whereNotIn('id', $keepImages)
+                    ->each(function ($image) {
+                        // Storage::delete($image->image);
+                        $image->delete();
+                    });
+            }
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $announcement->images()->create([
+                        'image' => $image,
+                    ]);
                 }
             }
 
             DB::commit();
 
             return response()->json([
-                'message' => 'Updated SuccessFully',
-                'data' => PublicAnnouncementResource::make($announcement),
+                'message' => 'Updated Successfully',
+                'data' => PublicAnnouncementResource::make($announcement->fresh()),
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
