@@ -1,6 +1,8 @@
 <?php
 
+use App\Actions\Website\Conversation\CreateMessageAction;
 use App\Actions\Website\Conversation\GetConversationAction;
+use App\Actions\Website\Conversation\GetMessagesAction;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// conversation
+Route::get('conversation', GetConversationAction::class);
+Route::post('message', CreateMessageAction::class);
+Route::get('messages/{conversation:id}', GetMessagesAction::class);
 
 Route::post('studentRegistration', [StudentController::class, 'studentRegistration']);
-Route::get('Conversation', GetConversationAction::class);
+Route::put('studentRegistrationComplete/{student:id}', [StudentController::class, 'studentRegistrationComplete']);
 Route::post('studentLogin', [StudentController::class, 'login']);

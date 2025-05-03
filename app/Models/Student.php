@@ -45,4 +45,9 @@ class Student extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Conversation::class, 'members')
             ->latest('last_message_id');
     }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class);
+    }
 }

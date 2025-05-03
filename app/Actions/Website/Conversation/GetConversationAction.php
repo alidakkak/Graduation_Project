@@ -5,15 +5,15 @@ namespace App\Actions\Website\Conversation;
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
 use App\Http\Resources\ConversationResource;
-use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
 
 class GetConversationAction
 {
     public function __invoke()
     {
-        $user = Student::first();
+        $user = Auth::guard('api_student')->user();
 
-         $conversations = $user->conversations()
+        $conversations = $user->conversations()
             ->with([
                 'lastMessage' => function ($builder) {
                     $builder->with(['sender' => function ($builder) {
@@ -25,8 +25,9 @@ class GetConversationAction
                     $builder->where('recipients.student_id', $user->id)->whereNull('read_at');
                 }])->get();
 
-         $conversations = ConversationResource::collection($conversations);
-       return  ApiResponseHelper::sendResponse(new Result($conversations ));
+        $conversations = ConversationResource::collection($conversations);
+
+        return ApiResponseHelper::sendResponse(new Result($conversations));
 
     }
 }

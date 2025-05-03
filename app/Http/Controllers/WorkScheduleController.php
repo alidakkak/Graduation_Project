@@ -38,17 +38,17 @@ class WorkScheduleController extends Controller
 
             $items = collect($request->input('course_name'))->map(function ($_, $index) use ($request, $commonData) {
                 return [
-                    'semester_id'     => $commonData['semester_id'],
-                    'academic_level'  => $commonData['academic_level'],
-                    'specialization'  => $commonData['specialization'],
-                    'course_name'     => $request->course_name[$index],
+                    'semester_id' => $commonData['semester_id'],
+                    'academic_level' => $commonData['academic_level'],
+                    'specialization' => $commonData['specialization'],
+                    'course_name' => $request->course_name[$index],
                     'instructor_name' => $request->instructor_name[$index],
-                    'day'             => $request->day[$index],
-                    'start_time'      => $request->start_time[$index],
-                    'end_time'        => $request->end_time[$index],
-                    'room'            => $request->room[$index],
-                    'created_at'      => now(),
-                    'updated_at'      => now(),
+                    'day' => $request->day[$index],
+                    'start_time' => $request->start_time[$index],
+                    'end_time' => $request->end_time[$index],
+                    'room' => $request->room[$index],
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ];
             });
 
@@ -78,20 +78,20 @@ class WorkScheduleController extends Controller
 
                 if ($conflict) {
                     $skipped[] = [
-                        'course_name'    => $item['course_name'],
-                        'instructor'     => $item['instructor_name'],
-                        'day'            => $item['day'],
-                        'start_time'     => $item['start_time'],
-                        'end_time'       => $item['end_time'],
-                        'room'           => $item['room'],
-                        'reason'         => 'تعارض وقت مع مدرّس أو قاعة',
+                        'course_name' => $item['course_name'],
+                        'instructor' => $item['instructor_name'],
+                        'day' => $item['day'],
+                        'start_time' => $item['start_time'],
+                        'end_time' => $item['end_time'],
+                        'room' => $item['room'],
+                        'reason' => 'تعارض وقت مع مدرّس أو قاعة',
                     ];
                 } else {
                     $validRows[] = $item;
                 }
             }
 
-            if (!empty($validRows)) {
+            if (! empty($validRows)) {
                 WorkSchedule::insert($validRows);
             }
 
@@ -115,7 +115,7 @@ class WorkScheduleController extends Controller
 
             return response()->json([
                 'message' => 'حدث خطأ أثناء إدخال جدول الدوام.',
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -128,16 +128,16 @@ class WorkScheduleController extends Controller
             $data = $request->only([
                 'semester_id', 'academic_level', 'specialization',
                 'course_name', 'instructor_name',
-                'day', 'start_time', 'end_time', 'room'
+                'day', 'start_time', 'end_time', 'room',
             ]);
 
             // مزج البيانات القديمة مع الجديدة للتحقق من التعارض
             $checkData = [
-                'semester_id'     => $data['semester_id']     ?? $schedule->semester_id,
-                'day'             => $data['day']             ?? $schedule->day,
-                'start_time'      => $data['start_time']      ?? $schedule->start_time,
-                'end_time'        => $data['end_time']        ?? $schedule->end_time,
-                'room'            => $data['room']            ?? $schedule->room,
+                'semester_id' => $data['semester_id'] ?? $schedule->semester_id,
+                'day' => $data['day'] ?? $schedule->day,
+                'start_time' => $data['start_time'] ?? $schedule->start_time,
+                'end_time' => $data['end_time'] ?? $schedule->end_time,
+                'room' => $data['room'] ?? $schedule->room,
                 'instructor_name' => $data['instructor_name'] ?? $schedule->instructor_name,
             ];
 
@@ -177,15 +177,14 @@ class WorkScheduleController extends Controller
 
             return response()->json([
                 'message' => 'تم تحديث الحصة بنجاح.',
-                'data'    => $schedule,
+                'data' => $schedule,
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'حدث خطأ أثناء تحديث الحصة.',
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
-
 }

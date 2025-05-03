@@ -22,6 +22,7 @@ class ApiResponseHelper
             'data' => $response->result ?? null,
         ], ApiResponseCodes::SUCCESS);
     }
+
     public static function sendMessageResponse($message, $code = 200, $success = true)
     {
         return \Response::json([
@@ -29,8 +30,4 @@ class ApiResponseHelper
             'message' => $message,
         ], $code);
     }
-
-
-
-
 }

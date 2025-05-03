@@ -17,10 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->enum('academic_year', [AcademicYear::First_Year, AcademicYear::Second_Year, AcademicYear::Third_Year
-                , AcademicYear::Fourth_Year, AcademicYear::Fifth_Year, AcademicYear::General]);
-            $table->enum('specialization', [Specialization::Software_Engineering, Specialization::Artificial_Intelligence
-                , Specialization::Networks, Specialization::General]);
+            $table->enum('academic_year', [AcademicYear::First_Year, AcademicYear::Second_Year, AcademicYear::Third_Year, AcademicYear::Fourth_Year, AcademicYear::Fifth_Year, AcademicYear::General]);
+            $table->enum('specialization', [Specialization::Software_Engineering, Specialization::Artificial_Intelligence, Specialization::Networks, Specialization::General]);
             $table->timestamps();
         });
     }

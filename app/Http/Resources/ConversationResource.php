@@ -22,7 +22,7 @@ class ConversationResource extends JsonResource
             'last_message' => [
                 'Last_message_id' => $this->lastMessage?->id,
                 'Last_message_Type' => $this->lastMessage?->type,
-                'Last_message_Body' => $this->lastMessage?->type === 'attachment' ?  asset($this->lastMessage?->body):$this->lastMessage?->body ,
+                'Last_message_Body' => $this->lastMessage?->type === 'attachment' ? asset($this->lastMessage?->body) : $this->lastMessage?->body,
                 'Last_message_Sender' => $this->lastMessage?->sender?->first_name,
             ],
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('academic_year_id')->constrained('academic_years')->cascadeOnDelete();
-            $table->enum('specialization', [SpecializationStatus::SOFTWARE,SpecializationStatus::GENERAL, SpecializationStatus::NETWORKS, SpecializationStatus::AI])->nullable();
+            $table->enum('specialization', [SpecializationStatus::SOFTWARE, SpecializationStatus::GENERAL, SpecializationStatus::NETWORKS, SpecializationStatus::AI])->nullable();
             $table->timestamps();
         });
     }

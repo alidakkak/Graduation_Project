@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
-use App\Http\Requests\StoreCompleteRegistration;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\StudentResource;
+use App\Models\Conversation;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,7 @@ class StudentController extends Controller
             ], 500);
         }
     }
+
     public function checkStudentData($studentID)
     {
         $student = Student::where('id', $studentID)->first();
@@ -75,6 +77,7 @@ class StudentController extends Controller
         return ApiResponseHelper::sendResponseWithPagination(new Result($students, 'get employees successfully', $pagination));
 
     }
+
     public function login(Request $request)
     {
         $request->validate([
@@ -93,7 +96,7 @@ class StudentController extends Controller
         }
 
         $student = Student::where('university_number', $request->university_number)
-            ->where('is_registration_complete', 0)
+            ->where('verified', '!=', 1)
             ->first();
         if ($student) {
             return response()->json(['message' => 'يجب عليك الانتظار حتى يتم تفعيل حسابك']);
@@ -106,5 +109,30 @@ class StudentController extends Controller
             'token' => $token,
         ]);
 
+    }
+
+    public function studentRegistrationComplete(Student $student, Request $request)
+    {
+        $validated = $request->validate([
+            'academic_year' => 'required',
+            'specialization' => 'required',
+            'subjects' => 'required|array',
+            'subjects.*' => 'exists:subjects,id',
+        ]);
+        $student->update([
+            'is_registration_complete' => 1,
+            'academic_year' => $validated['academic_year'],
+            'specialization' => $validated['specialization'],
+        ]);
+
+        $student->subjects()->sync($validated['subjects']);
+        $conversationIds = Conversation::whereIn('subject_id', $validated['subjects'])
+            ->pluck('id')
+            ->toArray();
+        $student->conversations()->sync($conversationIds);
+
+        return response()->json([
+            'message' => 'Registration completed successfully',
+        ]);
     }
 }

@@ -6,7 +6,6 @@ use App\Http\Requests\StoreAcademicYear;
 use App\Http\Resources\AcademicYearResource;
 use App\Models\AcademicYear;
 use App\Models\Semester;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AcademicYearController extends Controller

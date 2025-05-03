@@ -16,9 +16,10 @@ class SemesterResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'semesterName' => $this->getSemesterName()
+            'semesterName' => $this->getSemesterName(),
         ];
     }
+
     private function getSemesterName(): string
     {
         return match ($this->semester) {

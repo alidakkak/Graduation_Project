@@ -30,6 +30,11 @@ class Conversation extends Model
         );
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(Student::class, 'members');
+    }
+
     public function members()
     {
         return $this->belongsToMany(Student::class, Member::class)
