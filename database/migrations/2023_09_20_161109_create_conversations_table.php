@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->nullable()->constrained('students')->nullOnDelete();
-            $table->foreignId('academic_year_id')->nullable()->constrained('academic_years')->nullOnDelete();
+            $table->foreignId('year_id')->nullable()->constrained('years')->nullOnDelete();
             $table->foreignId('subject_id')->nullable()->constrained('subjects')->nullOnDelete();
             $table->enum('specialization', [SpecializationStatus::SOFTWARE, SpecializationStatus::NETWORKS, SpecializationStatus::AI])->nullable();
 

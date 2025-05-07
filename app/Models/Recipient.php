@@ -12,5 +12,8 @@ class Recipient extends Model
 
     protected $table = 'recipients';
 
-    protected $fillable = ['user_id'];
+    public function conversation()
+    {
+        return $this->belongsTo(Conversation::class, 'student_id');
+    }
 }

@@ -5,13 +5,13 @@ namespace App\Actions\Website\Conversation;
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
 use App\Http\Resources\ConversationResource;
-use App\Models\Student;
+use Illuminate\Support\Facades\Auth;
 
 class GetConversationAction
 {
     public function __invoke()
     {
-        $user = Student::first();
+        $user = Auth::guard('api_student')->user();
 
         $conversations = $user->conversations()
             ->with([

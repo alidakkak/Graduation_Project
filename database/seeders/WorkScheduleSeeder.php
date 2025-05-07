@@ -14,7 +14,6 @@ class WorkScheduleSeeder extends Seeder
     {
         DB::table('work_schedules')->insert([
             [
-                // // الاحد
                 'semester_id' => 2,
                 'academic_level' => 1,
                 'specialization' => null,
