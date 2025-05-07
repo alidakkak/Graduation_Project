@@ -129,7 +129,7 @@ class StudentController extends Controller
         $conversationIds = Conversation::whereIn('subject_id', $validated['subjects'])
             ->pluck('id')
             ->toArray();
-          $student->conversations()->sync($conversationIds);
+        $student->conversations()->sync($conversationIds);
 
         return response()->json([
             'message' => 'Registration completed successfully',

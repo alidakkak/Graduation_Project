@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $this->call([StudentSeeder::class, AcademicYearsSeeder::class,YearsSeeder::class, SemestersSeeder::class, WorkScheduleSeeder::class,SubjectSeeder::class,ConversationSeeder::class]);
+        $this->call([StudentSeeder::class, AcademicYearsSeeder::class, YearsSeeder::class, SemestersSeeder::class, WorkScheduleSeeder::class, SubjectSeeder::class, ConversationSeeder::class]);
 
     }
 }

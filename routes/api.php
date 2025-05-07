@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // conversation
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('conversation', GetConversationAction::class);
     Route::post('message', CreateMessageAction::class);
     Route::get('messages/{conversation}', GetMessagesAction::class);

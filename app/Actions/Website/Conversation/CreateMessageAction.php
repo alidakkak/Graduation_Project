@@ -4,6 +4,7 @@ namespace App\Actions\Website\Conversation;
 
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
+use App\Events\Chat;
 use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -48,6 +49,7 @@ class CreateMessageAction
             },
         ])->findOrFail($data['conversation_id']);
         $messages = MessageResource::collection($conversation->messages);
+        event(new Chat($message));
 
         return ApiResponseHelper::sendResponse(new Result($messages));
 
