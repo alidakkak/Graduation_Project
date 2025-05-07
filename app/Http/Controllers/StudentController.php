@@ -114,14 +114,14 @@ class StudentController extends Controller
     public function studentRegistrationComplete(Student $student, Request $request)
     {
         $validated = $request->validate([
-            'academic_year' => 'required',
+            'year' => 'required',
             'specialization' => 'required',
             'subjects' => 'required|array',
             'subjects.*' => 'exists:subjects,id',
         ]);
         $student->update([
             'is_registration_complete' => 1,
-            'academic_year' => $validated['academic_year'],
+            'academic_year' => $validated['year'],
             'specialization' => $validated['specialization'],
         ]);
 
@@ -129,7 +129,7 @@ class StudentController extends Controller
         $conversationIds = Conversation::whereIn('subject_id', $validated['subjects'])
             ->pluck('id')
             ->toArray();
-        $student->conversations()->sync($conversationIds);
+          $student->conversations()->sync($conversationIds);
 
         return response()->json([
             'message' => 'Registration completed successfully',

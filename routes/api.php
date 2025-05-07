@@ -17,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // conversation
-Route::get('conversation', GetConversationAction::class);
-Route::post('message', CreateMessageAction::class);
-Route::get('messages/{conversation:id}', GetMessagesAction::class);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('conversation', GetConversationAction::class);
+    Route::post('message', CreateMessageAction::class);
+    Route::get('messages/{conversation}', GetMessagesAction::class);
+});
 
 Route::post('studentRegistration', [StudentController::class, 'studentRegistration']);
 Route::put('studentRegistrationComplete/{student:id}', [StudentController::class, 'studentRegistrationComplete']);

@@ -25,8 +25,8 @@ class StoreStudentRequest extends FormRequest
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'father_name' => 'required|string',
-            'university_number' => 'required|numeric',
-            'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            'university_number' => 'required|numeric|exists:students,university_number',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
             'password' => 'required|string|min:8',
             'deviceToken' => 'required|string',
         ];

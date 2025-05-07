@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('academic_year_id')->constrained('academic_years')->cascadeOnDelete();
+            $table->foreignId('year_id')->nullable()->constrained('years')->nullOnDelete();
             $table->enum('specialization', [SpecializationStatus::SOFTWARE, SpecializationStatus::GENERAL, SpecializationStatus::NETWORKS, SpecializationStatus::AI])->nullable();
             $table->timestamps();
         });
