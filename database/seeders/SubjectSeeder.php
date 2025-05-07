@@ -19,7 +19,7 @@ class SubjectSeeder extends Seeder
             ['name' => 'الفيزياء', 'academic_year_id' => 1, 'specialization' => Specialization::General],
             ['name' => 'برمجة 1', 'academic_year_id' => 1, 'specialization' => Specialization::General],
             // // فصل 2
-            ['name' => 'الدارات الكهربائية والألكترونية', 'academic_year_id' => 1, 'specialization' => Specialization::General],
+            ['name' => 'الدارات الكهربائية والإلكترونية', 'academic_year_id' => 1, 'specialization' => Specialization::General],
             ['name' => 'تحليل 2', 'academic_year_id' => 1, 'specialization' => Specialization::General],
             ['name' => 'اللغة العربية', 'academic_year_id' => 1, 'specialization' => Specialization::General],
             ['name' => 'الجبر الخطي', 'academic_year_id' => 1, 'specialization' => Specialization::General],

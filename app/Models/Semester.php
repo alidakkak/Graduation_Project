@@ -20,4 +20,9 @@ class Semester extends Model
     {
         return $this->hasOne(WorkSchedule::class);
     }
+
+    public function examSchedules()
+    {
+        return $this->hasOne(ExamSchedule::class);
+    }
 }
