@@ -25,7 +25,6 @@ class CreateMessageAction
             'conversation_id' => 'required|integer|exists:conversations,id',
             'body' => 'required',
             'type' => 'nullable|string|in:text,attachment',
-            'per_page' => 'required|int',
         ]);
         $studentId = Auth::guard('api_student')->id();
         $message = Message::create([
@@ -43,15 +42,10 @@ class CreateMessageAction
                 'message_id' => $message->id, ];
         })->toArray();
         Recipient::insert($recipientsData);
-        $conversation = Conversation::with([
-            'messages' => function ($q) use ($data) {
-                $q->with('sender')->orderBy('id', 'desc')->paginate($data['per_page']);
-            },
-        ])->findOrFail($data['conversation_id']);
-        $messages = MessageResource::collection($conversation->messages);
+
         event(new Chat($message));
 
-        return ApiResponseHelper::sendResponse(new Result($messages));
+        return ApiResponseHelper::sendResponse(new Result(MessageResource::make($message)));
 
     }
 }

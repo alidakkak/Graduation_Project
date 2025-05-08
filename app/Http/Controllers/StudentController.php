@@ -8,6 +8,7 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\Conversation;
 use App\Models\Student;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -117,22 +118,35 @@ class StudentController extends Controller
             'year' => 'required',
             'specialization' => 'required',
             'subjects' => 'required|array',
-            'subjects.*' => 'exists:subjects,id',
+            'subjects.*' => 'int|exists:subjects,id',
         ]);
+
+        $validated['subjects'] = array_unique($validated['subjects']);
+
         $student->update([
             'is_registration_complete' => 1,
             'academic_year' => $validated['year'],
             'specialization' => $validated['specialization'],
         ]);
 
-        $student->subjects()->sync($validated['subjects']);
-        $conversationIds = Conversation::whereIn('subject_id', $validated['subjects'])
+        $subjects = Subject::where('year_id', $validated['year'])
+            ->where('specialization', $validated['specialization'])
             ->pluck('id')
             ->toArray();
+        $subjects = array_merge($subjects, $validated['subjects']);
+        $subjects = array_map('intval', $subjects);
+        $subjects = array_unique($subjects);
+        $subjects = array_values($subjects);
+
+        $student->subjects()->sync($subjects);
+
+        $conversationIds = Conversation::whereIn('subject_id', $subjects)->pluck('id')->toArray();
+
         $student->conversations()->sync($conversationIds);
 
         return response()->json([
             'message' => 'Registration completed successfully',
         ]);
+
     }
 }
