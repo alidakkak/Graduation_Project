@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\WorkScheduleController;
@@ -37,3 +38,8 @@ Route::delete('academicYear/{id}', [AcademicYearController::class, 'delete']);
 Route::post('workSchedules', [WorkScheduleController::class, 'store']);
 Route::get('workSchedules', [WorkScheduleController::class, 'getSchedulesBySemesterID']);
 Route::patch('workSchedules/{id}', [WorkScheduleController::class, 'update']);
+
+// // Work Schedule
+Route::post('examSchedules', [ExamScheduleController::class, 'store']);
+Route::get('examSchedules', [ExamScheduleController::class, 'getSchedulesBySemesterID']);
+Route::patch('examSchedules/{id}', [ExamScheduleController::class, 'update']);

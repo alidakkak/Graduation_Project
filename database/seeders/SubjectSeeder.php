@@ -125,8 +125,7 @@ class SubjectSeeder extends Seeder
 
             // السنة الخامسة - شبكات
             ['name' => 'مشروع تخرج', 'year_id' => 5, 'specialization' => Specialization::Networks],
-            ['name' => 'نظم التطبيقات الموزعة', 'year_id
-            ' => 5, 'specialization' => Specialization::Networks],
+            ['name' => 'نظم التطبيقات الموزعة', 'year_id' => 5, 'specialization' => Specialization::Networks],
             ['name' => 'إدارة الشبكات الحاسوبية', 'year_id' => 5, 'specialization' => Specialization::Networks],
             ['name' => 'إدارة المشاريع', 'year_id' => 5, 'specialization' => Specialization::Networks],
             ['name' => 'تصميم الشبكات الحاسوبية', 'year_id' => 5, 'specialization' => Specialization::Networks],

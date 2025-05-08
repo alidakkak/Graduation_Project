@@ -5,8 +5,13 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class WorkScheduleResource extends JsonResource
+class ExamScheduleResource extends JsonResource
 {
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(Request $request): array
     {
         $items = collect($this->resource);
@@ -53,13 +58,12 @@ class WorkScheduleResource extends JsonResource
     {
         return [
             'id' => $item->id,
-            'course_name' => $item->course_name,
-            'instructor_name' => $item->instructor_name,
+            'subject_name' => $item->subject_name,
             'day' => $item->day,
+            'date' => $item->date,
             'start_time' => $item->start_time->format('H:i'),
             'end_time' => $item->end_time->format('H:i'),
-            'room' => $item->room,
-            'branch' => $item->branch,
+            'status' => $item->status,
         ];
     }
 }
