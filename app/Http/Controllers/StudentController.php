@@ -149,8 +149,11 @@ class StudentController extends Controller
         ]);
 
     }
-    public function getSubject (){
-      $subjects=  Subject::select('id','name','year_id','specialization')->get();
+
+    public function getSubject()
+    {
+        $subjects = Subject::select('id', 'name', 'year_id', 'specialization')->get();
+
         return ApiResponseHelper::sendResponse(new Result($subjects));
     }
 }

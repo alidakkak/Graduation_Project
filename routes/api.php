@@ -1,6 +1,7 @@
 <?php
 
 use App\Actions\Website\Conversation\CreateMessageAction;
+use App\Actions\Website\Conversation\ExitConversationAction;
 use App\Actions\Website\Conversation\GetConversationAction;
 use App\Actions\Website\Conversation\GetMessagesAction;
 use App\Http\Controllers\StudentController;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('conversation', GetConversationAction::class);
     Route::post('message', CreateMessageAction::class);
-    Route::get('messages/{conversation}', GetMessagesAction::class);
+    Route::delete('exitConversation/{conversation}', ExitConversationAction::class);
 });
 
 Route::post('studentRegistration', [StudentController::class, 'studentRegistration']);
