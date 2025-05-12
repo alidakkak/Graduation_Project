@@ -37,7 +37,7 @@ Route::delete('academicYear/{id}', [AcademicYearController::class, 'delete']);
 // // Work Schedule
 Route::post('workSchedules', [WorkScheduleController::class, 'store']);
 Route::get('workSchedules', [WorkScheduleController::class, 'getSchedulesBySemesterID']);
-Route::patch('workSchedules/{id}', [WorkScheduleController::class, 'update']);
+Route::put('workSchedules/{id}', [WorkScheduleController::class, 'update']);
 
 // // Work Schedule
 Route::post('examSchedules', [ExamScheduleController::class, 'store']);

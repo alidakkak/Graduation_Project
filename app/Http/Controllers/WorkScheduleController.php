@@ -130,7 +130,7 @@ class WorkScheduleController extends Controller
             $data = $request->only([
                 'semester_id', 'academic_level', 'specialization',
                 'course_name', 'instructor_name',
-                'day', 'start_time', 'end_time', 'room',
+                'day', 'start_time', 'end_time', 'room', 'branch',
             ]);
 
             // مزج البيانات القديمة مع الجديدة للتحقق من التعارض
@@ -140,10 +140,11 @@ class WorkScheduleController extends Controller
                 'start_time' => $data['start_time'] ?? $schedule->start_time,
                 'end_time' => $data['end_time'] ?? $schedule->end_time,
                 'room' => $data['room'] ?? $schedule->room,
+                'branch' => $data['branch'] ?? $schedule->branch,
                 'instructor_name' => $data['instructor_name'] ?? $schedule->instructor_name,
             ];
 
-            $checkConflict = $request->hasAny(['start_time', 'end_time', 'day', 'room', 'instructor_name']);
+            $checkConflict = $request->hasAny(['start_time', 'end_time', 'day', 'room', 'instructor_name', 'branch']);
 
             if ($checkConflict) {
                 $conflict = WorkSchedule::where('id', '!=', $schedule->id)
