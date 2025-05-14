@@ -3,6 +3,7 @@
 use App\Actions\Website\Conversation\CreateMessageAction;
 use App\Actions\Website\Conversation\ExitConversationAction;
 use App\Actions\Website\Conversation\GetConversationAction;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,7 @@ Route::post('studentRegistration', [StudentController::class, 'studentRegistrati
 Route::put('studentRegistrationComplete/{student:id}', [StudentController::class, 'studentRegistrationComplete']);
 Route::post('studentLogin', [StudentController::class, 'login']);
 Route::get('getSubject', [StudentController::class, 'getSubject']);
+
+//////  Announcements
+Route::get('announcements', [AnnouncementController::class, 'index']);
+Route::get('announcement/{id}', [AnnouncementController::class, 'show']);

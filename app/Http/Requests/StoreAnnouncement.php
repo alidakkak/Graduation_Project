@@ -22,10 +22,10 @@ class StoreAnnouncement extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|nullable',
-            'description' => 'string|nullable',
-            'academic_year' => 'in:1,2,3,4,5,6',
-            'specialization' => 'in:1,2,3,4',
+            'title' => 'string|required',
+            'description' => 'string|required',
+            'academic_year' => 'required|in:1,2,3,4,5,6',
+            'specialization' => 'required|in:1,2,3,4',
             'images' => 'array|nullable',
             'images.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ];
