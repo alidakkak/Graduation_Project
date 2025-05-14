@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Website\Conversation\CreateGroupAction;
 use App\Actions\Website\Conversation\CreateMessageAction;
 use App\Actions\Website\Conversation\ExitConversationAction;
 use App\Actions\Website\Conversation\GetConversationAction;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('conversation', GetConversationAction::class);
     Route::post('message', CreateMessageAction::class);
+    Route::post('group', CreateGroupAction::class);
     Route::delete('exitConversation/{conversation}', ExitConversationAction::class);
 });
 
