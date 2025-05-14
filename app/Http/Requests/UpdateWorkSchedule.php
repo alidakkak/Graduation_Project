@@ -30,7 +30,7 @@ class UpdateWorkSchedule extends FormRequest
             'instructor_name' => 'sometimes|string',
             'day' => 'sometimes|string',
             'start_time' => 'sometimes|date_format:H:i',
-            'end_time' => 'sometimes|date_format:H:i|after:start_time',
+            'end_time' => 'sometimes|date_format:H:i',
             'room' => 'sometimes|string',
         ];
     }

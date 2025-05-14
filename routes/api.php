@@ -4,7 +4,6 @@ use App\Actions\Website\Conversation\CreateGroupAction;
 use App\Actions\Website\Conversation\CreateMessageAction;
 use App\Actions\Website\Conversation\ExitConversationAction;
 use App\Actions\Website\Conversation\GetConversationAction;
-use App\Actions\Website\Conversation\GetMessagesAction;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
