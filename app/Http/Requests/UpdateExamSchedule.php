@@ -22,7 +22,16 @@ class UpdateExamSchedule extends FormRequest
     public function rules(): array
     {
         return [
+            'semester_id' => 'sometimes|exists:semesters,id',
+            'academic_level' => 'sometimes|integer|min:1|max:5',
+            'specialization' => 'nullable|string',
 
+            'subject_name' => 'sometimes|string',
+            'day' => 'sometimes|string',
+            'date' => 'sometimes|string',
+            'start_time' => 'sometimes|date_format:H:i',
+            'end_time' => 'sometimes|date_format:H:i',
+            'status' => 'sometimes',
         ];
     }
 }

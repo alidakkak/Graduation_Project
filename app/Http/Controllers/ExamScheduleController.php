@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreExamSchedule;
+use App\Http\Requests\UpdateExamSchedule;
 use App\Http\Resources\ExamScheduleResource;
 use App\Models\ExamSchedule;
 use Illuminate\Http\Request;
@@ -100,6 +101,59 @@ class ExamScheduleController extends Controller
 
             return response()->json([
                 'message' => 'حدث خطأ أثناء إدخال جدول الإمتحان.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function update(UpdateExamSchedule $request, $id)
+    {
+        try {
+            $schedule = ExamSchedule::findOrFail($id);
+
+            $data = $request->only([
+                'semester_id', 'academic_level', 'specialization',
+                'subject_name',
+                'day', 'date', 'start_time', 'end_time', 'status',
+            ]);
+
+            $checkData = [
+                'semester_id' => $data['semester_id'] ?? $schedule->semester_id,
+                'day' => $data['day'] ?? $schedule->day,
+                'date' => $data['date'] ?? $schedule->date,
+                'start_time' => $data['start_time'] ?? $schedule->start_time,
+                'end_time' => $data['end_time'] ?? $schedule->end_time,
+            ];
+
+            $checkConflict = $request->hasAny(['start_time', 'end_time', 'data']);
+
+            if ($checkConflict) {
+                $conflict = ExamSchedule::where('id', '!=', $schedule->id)
+                    ->where('semester_id', $checkData['semester_id'])
+                    ->where('date', $checkData['date'])
+                    ->where(function ($q) use ($checkData) {
+                        $q->whereBetween('start_time', [$checkData['start_time'], $checkData['end_time']])
+                            ->orWhereBetween('end_time', [$checkData['start_time'], $checkData['end_time']]);
+                    })
+                    ->exists();
+
+                if ($conflict) {
+                    return response()->json([
+                        'message' => 'تعارض في الوقت',
+                    ], 422);
+                }
+            }
+
+            $schedule->update($data);
+
+            return response()->json([
+                'message' => 'تم تحديث الحصة بنجاح.',
+                'data' => $schedule,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'حدث خطأ أثناء التحديث .',
                 'error' => $e->getMessage(),
             ], 500);
         }
