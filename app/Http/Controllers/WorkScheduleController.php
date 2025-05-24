@@ -133,7 +133,6 @@ class WorkScheduleController extends Controller
                 'day', 'start_time', 'end_time', 'room', 'branch',
             ]);
 
-            // مزج البيانات القديمة مع الجديدة للتحقق من التعارض
             $checkData = [
                 'semester_id' => $data['semester_id'] ?? $schedule->semester_id,
                 'day' => $data['day'] ?? $schedule->day,

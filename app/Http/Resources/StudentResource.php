@@ -21,7 +21,8 @@ class StudentResource extends JsonResource
             'last_name' => $this->last_name,
             'father_name' => $this->father_name,
             'university_number' => $this->university_number,
-            'image' => $this->image,
+            'image' => url($this->image),
+            'profileImage' => url($this->profileImage),
             'verified' => boolval($this->verified),
             'is_registration_complete' => $this->is_registration_complete,
         ];

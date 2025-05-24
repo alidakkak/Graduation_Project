@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('father_name');
             $table->string('university_number')->unique();
             $table->string('image');
+            $table->string('profileImage')->default('/students_profile_image/default-user-profile.jpg');
             $table->string('password');
             $table->boolean('verified')->nullable();
             $table->boolean('is_registration_complete')->default(0);
