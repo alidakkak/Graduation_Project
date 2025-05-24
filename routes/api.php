@@ -29,7 +29,7 @@ Route::get('getSubject', [StudentController::class, 'getSubject']);
 Route::group(['middleware' => ['auth:api_student']], function () {
     //// conversation
     Route::get('conversation', GetConversationAction::class);
-    Route::get('messages/{id}', GetMessagesAction::class);
+    Route::get('/conversations/{conversation}', GetMessagesAction::class);
     Route::post('message', CreateMessageAction::class);
     Route::post('group', CreateGroupAction::class);
     Route::delete('exitConversation/{conversation}', ExitConversationAction::class);
