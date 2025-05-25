@@ -22,6 +22,14 @@ class Student extends Authenticatable implements JWTSubject
         return $this->attributes['image'] = '/'.'students_image'.'/'.$newImageName;
     }
 
+    public function setProfileImageAttribute($image)
+    {
+        $newImageName = uniqid().'_'.'students_profile_image'.'.'.$image->extension();
+        $image->move(public_path('students_profile_image'), $newImageName);
+
+        return $this->attributes['profileImage'] = '/'.'students_profile_image'.'/'.$newImageName;
+    }
+
     public function deviceTokens()
     {
         return $this->hasMany(DeviceToken::class);
@@ -49,5 +57,10 @@ class Student extends Authenticatable implements JWTSubject
     public function subjects()
     {
         return $this->belongsToMany(Subject::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

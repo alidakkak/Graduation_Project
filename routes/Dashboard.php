@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\JobOpportunityController;
+use App\Http\Controllers\LostItemController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\WorkScheduleController;
 use Illuminate\Support\Facades\Route;
@@ -43,3 +44,10 @@ Route::put('workSchedules/{id}', [WorkScheduleController::class, 'update']);
 Route::post('examSchedules', [ExamScheduleController::class, 'store']);
 Route::get('examSchedules', [ExamScheduleController::class, 'getSchedulesBySemesterID']);
 Route::put('examSchedules/{id}', [ExamScheduleController::class, 'update']);
+
+//// Lost Item
+Route::post('lostItem', [LostItemController::class, 'store']);
+Route::get('getLostItems', [LostItemController::class, 'index']);
+Route::get('showLostItem/{id}', [LostItemController::class, 'show']);
+Route::delete('lostItem/{id}', [LostItemController::class, 'delete']);
+Route::post('lostItem/{id}', [LostItemController::class, 'update']);
