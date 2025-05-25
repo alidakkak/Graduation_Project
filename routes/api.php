@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 // conversation
 Route::group(['middleware' => ['auth:api_student']], function () {
-    Route::get('conversation', GetConversationAction::class);
+    Route::get('conversation', GetConversationAction::class); 
     Route::post('message', CreateMessageAction::class);
     Route::post('group', CreateGroupAction::class);
     Route::delete('exitConversation/{conversation}', ExitConversationAction::class);
