@@ -20,14 +20,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-// conversation
-Route::group(['middleware' => ['auth:api_student']], function () {
-    Route::get('conversation', GetConversationAction::class); 
-    Route::post('message', CreateMessageAction::class);
-    Route::post('group', CreateGroupAction::class);
-    Route::delete('exitConversation/{conversation}', ExitConversationAction::class);
-});
-
 Route::post('studentRegistration', [StudentController::class, 'studentRegistration']);
 Route::put('studentRegistrationComplete/{student:id}', [StudentController::class, 'studentRegistrationComplete']);
 Route::post('studentLogin', [StudentController::class, 'login']);
