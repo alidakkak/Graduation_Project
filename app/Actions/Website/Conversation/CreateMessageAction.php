@@ -34,6 +34,7 @@ class CreateMessageAction
             'body' => $data['body'],
 
         ]);
+        Conversation::where('id',$data['conversation_id'])->update(['last_message_id'=>$message->id]);
         $otherStudentIds = Conversation::findOrFail($data['conversation_id'])->students()->where('students.id', '!=', $studentId)->pluck('students.id');
         $recipientsData = $otherStudentIds->map(function ($sid) use ($message, $data) {
             return [

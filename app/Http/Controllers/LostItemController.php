@@ -116,7 +116,7 @@ class LostItemController extends Controller
 
             return response()->json([
                 'message' => 'Created SuccessFully',
-                'data' => CommentResource::make($comment)
+                'data' => CommentResource::make($comment),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -154,7 +154,7 @@ class LostItemController extends Controller
             ->with('children')
             ->orderBy('created_at', 'desc')->get();
 
-      //  $comments = $query->paginate(5);
+        //  $comments = $query->paginate(5);
 
         return CommentResource::collection($comments);
     }

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('verified')->nullable();
             $table->boolean('is_registration_complete')->default(0);
             $table->enum('academic_year', [AcademicYear::First_Year, AcademicYear::Second_Year, AcademicYear::Third_Year, AcademicYear::Fourth_Year, AcademicYear::Fifth_Year]);
-            $table->enum('specialization', [Specialization::Software_Engineering, Specialization::Artificial_Intelligence, Specialization::Networks]);
+            $table->enum('specialization', [Specialization::Software_Engineering, Specialization::Artificial_Intelligence, Specialization::Networks,Specialization::General]);
             $table->timestamps();
         });
     }
