@@ -37,6 +37,6 @@ class GetMessagesAction
             'per_page' => $messages->perPage(),
         ];
 
-        return ApiResponseHelper::sendResponseWithPagination(new Result(MessageResource::collection($messages->items()),'get messages successfully',$pagination));
+        return ApiResponseHelper::sendResponseWithPagination(new Result(MessageResource::collection($messages->items()), 'get messages successfully', $pagination));
     }
 }
