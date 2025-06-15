@@ -30,9 +30,13 @@ class GetMessagesAction
         Recipient::where('student_id', $studentId)
             ->where('conversation_id', $conversation->id)
             ->update(['read_at' => now()]);
+        $pagination = [
+            'total' => $messages->total(),
+            'current_page' => $messages->currentPage(),
+            'last_page' => $messages->lastPage(),
+            'per_page' => $messages->perPage(),
+        ];
 
-        return ApiResponseHelper::sendResponse(
-            new Result(MessageResource::collection($messages))
-        );
+        return ApiResponseHelper::sendResponseWithPagination(new Result(MessageResource::collection($messages->items()),'get messages successfully',$pagination));
     }
 }

@@ -22,7 +22,7 @@ class CommentResource extends JsonResource
             'studentID' => $this->student->id,
             'full_name' => $this->student->first_name.' '.$this->student->father_name.' '.$this->student->last_name,
             'profileImage' => url($this->student->profileImage),
-            'replies'    => CommentResource::collection($this->whenLoaded('children')),
+            'replies' => CommentResource::collection($this->whenLoaded('children')),
         ];
     }
 }

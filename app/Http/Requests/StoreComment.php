@@ -25,7 +25,7 @@ class StoreComment extends FormRequest
             'comment' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'lost_item_id' => 'required|integer|exists:lost_items,id',
-            'parent_id'    => 'nullable|integer|exists:comments,id',
+            'parent_id' => 'nullable|integer|exists:comments,id',
         ];
     }
 }
