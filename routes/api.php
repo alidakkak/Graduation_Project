@@ -42,12 +42,12 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::post('addNewComment', [LostItemController::class, 'addNewComment']);
     Route::post('updateComment/{id}', [LostItemController::class, 'updateComment']);
     Route::get('getCommentWithReplies/{lostItemID}', [LostItemController::class, 'getCommentWithReplies']);
+
+    // ////  Announcements
+    Route::get('announcements', [AnnouncementController::class, 'index']);
+    Route::get('announcement/{id}', [AnnouncementController::class, 'show']);
+
+    // //// Job Opportunity
+    Route::get('jobOpportunities', [JobOpportunityController::class, 'index']);
+    Route::get('jobOpportunity/{id}', [JobOpportunityController::class, 'show']);
 });
-
-// ////  Announcements
-Route::get('announcements', [AnnouncementController::class, 'index']);
-Route::get('announcement/{id}', [AnnouncementController::class, 'show']);
-
-// //// Job Opportunity
-Route::get('jobOpportunities', [JobOpportunityController::class, 'index']);
-Route::get('jobOpportunity/{id}', [JobOpportunityController::class, 'show']);
