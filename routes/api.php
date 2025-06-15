@@ -44,10 +44,10 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('getCommentWithReplies/{lostItemID}', [LostItemController::class, 'getCommentWithReplies']);
 
     // ////  Announcements
-    Route::get('announcements', [AnnouncementController::class, 'index']);
-    Route::get('announcement/{id}', [AnnouncementController::class, 'show']);
+    Route::get('getAnnouncements', [AnnouncementController::class, 'index']);
+    Route::get('showAnnouncement/{id}', [AnnouncementController::class, 'show']);
 
     // //// Job Opportunity
-    Route::get('jobOpportunities', [JobOpportunityController::class, 'index']);
-    Route::get('jobOpportunity/{id}', [JobOpportunityController::class, 'show']);
+    Route::get('getJobOpportunities', [JobOpportunityController::class, 'index']);
+    Route::get('showJobOpportunity/{id}', [JobOpportunityController::class, 'show']);
 });
