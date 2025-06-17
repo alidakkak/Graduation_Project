@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('getCommentWithReplies/{lostItemID}', [LostItemController::class, 'getCommentWithReplies']);
 
     // ////  Announcements
-    Route::get('getAnnouncements', [AnnouncementController::class, 'index']);
+    Route::get('getAnnouncements', [AnnouncementController::class, 'getAnnouncements']);
     Route::get('showAnnouncement/{id}', [AnnouncementController::class, 'show']);
 
     // //// Job Opportunity

@@ -20,6 +20,40 @@ class AnnouncementController extends Controller
         return PublicAnnouncementResource::collection($announcements);
     }
 
+    public function getAnnouncements()
+    {
+        $user = auth()->user();
+
+        $academicYear = $user->academic_year;
+        $specialization = $user->specialization;
+
+        $announcements = Announcement::where(function ($query) use ($academicYear, $specialization) {
+            $query
+                ->orWhere(function ($q) {
+                    $q->where('academic_year', AcademicYear::General);
+                })
+                ->orWhere(function ($q) use ($academicYear) {
+                    $q->where('academic_year', $academicYear)
+                        ->where('specialization', Specialization::General);
+                })
+                ->orWhere(function ($q) use ($academicYear, $specialization) {
+                    $q->where('academic_year', $academicYear)
+                        ->where('specialization', $specialization);
+                });
+        })->latest()->get();
+
+        [$general, $targeted] = $announcements->partition(function ($announcement) {
+            return $announcement->academic_year == AcademicYear::General;
+        });
+
+        return response()->json([
+            'general_announcements' => PublicAnnouncementResource::collection($general),
+            'targeted_announcements' => PublicAnnouncementResource::collection($targeted),
+        ]);
+    }
+
+
+
     public function store(StoreAnnouncement $request)
     {
         try {
