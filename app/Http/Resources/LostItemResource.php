@@ -23,6 +23,7 @@ class LostItemResource extends JsonResource
             'status' => $this->status,
             'created_at' => $this->created_at->diffForHumans(),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'numberComments' => CommentResource::collection(count($this->whenLoaded('comments'))),
         ];
     }
 }
