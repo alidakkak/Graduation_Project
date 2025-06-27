@@ -6,10 +6,13 @@ use App\Actions\Website\Conversation\ExitConversationAction;
 use App\Actions\Website\Conversation\GetConversationAction;
 use App\Actions\Website\Conversation\GetMemberAction;
 use App\Actions\Website\Conversation\GetMessagesAction;
+use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\LostItemController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\WorkScheduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,4 +53,14 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     // //// Job Opportunity
     Route::get('getJobOpportunities', [JobOpportunityController::class, 'index']);
     Route::get('showJobOpportunity/{id}', [JobOpportunityController::class, 'show']);
+
+    // /// Academic Year
+    Route::get('getAcademicYears', [AcademicYearController::class, 'index']);
+    Route::get('getAcademicYear/{id}', [AcademicYearController::class, 'show']);
+
+    // /// Work Schedule
+    Route::get('getWorkSchedules', [WorkScheduleController::class, 'getSchedulesBySemesterID']);
+
+    // /// Work Schedule
+    Route::get('getExamSchedules', [ExamScheduleController::class, 'getSchedulesBySemesterID']);
 });
