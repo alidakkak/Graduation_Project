@@ -8,8 +8,10 @@ use App\Actions\Website\Conversation\GetFilesAction;
 use App\Actions\Website\Conversation\GetMemberAction;
 use App\Actions\Website\Conversation\GetMessagesAction;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\LostItemController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +54,11 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     // //// Job Opportunity
     Route::get('getJobOpportunities', [JobOpportunityController::class, 'index']);
     Route::get('showJobOpportunity/{id}', [JobOpportunityController::class, 'show']);
+
+    // //// questions
+    Route::resource('questions',QuestionController::class);
+    Route::get('answer/{question:id}',[AnswerController::class,'index']);
+    Route::resource('answer',AnswerController::class)->except(['show','index']);
+
+
 });

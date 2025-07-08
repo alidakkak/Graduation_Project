@@ -30,7 +30,7 @@ class Message extends Model
         }
     }
 
-    protected $fillable = ['student_id', 'type', 'body', 'conversation_id'];
+    protected $fillable = ['student_id','message_id', 'type', 'body', 'conversation_id'];
 
     public function sender()
     {

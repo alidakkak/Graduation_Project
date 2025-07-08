@@ -23,6 +23,7 @@ class CreateMessageAction
     {
         $data = $request->validate([
             'conversation_id' => 'required|integer|exists:conversations,id',
+            'replay_message_id' => 'nullable|integer|exists:messages,id',
             'body' => 'required',
             'type' => 'nullable|string|in:text,attachment',
         ]);

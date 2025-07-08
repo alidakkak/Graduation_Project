@@ -13,6 +13,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+
     protected $guarded = ['id'];
 
     /**
@@ -47,4 +48,5 @@ class User extends Authenticatable implements JWTSubject
             'name' => $this->name,
         ];
     }
+
 }

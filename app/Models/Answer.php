@@ -12,7 +12,7 @@ class Answer extends Model
     protected $fillable = [
         'body',
         'question_id',
-        'user_id',
+        'student_id',
     ];
 
     public function question()
