@@ -9,7 +9,7 @@ class Member extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['conversation_id', 'user_id', 'is_block', 'is_mute', 'is_pinned', 'is_archived', 'role', 'joined_at'];
+    protected $fillable = ['conversation_id', 'student_id', 'is_block', 'is_mute', 'is_pinned', 'is_archived', 'role', 'joined_at'];
 
     public function conversation()
     {
