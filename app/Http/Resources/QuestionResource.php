@@ -18,6 +18,7 @@ class QuestionResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
+            'student_id'=>$this->student_id,
             'answers_count'=> $this->answers_count,
 
 
