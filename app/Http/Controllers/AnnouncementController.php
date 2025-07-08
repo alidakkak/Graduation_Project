@@ -52,8 +52,6 @@ class AnnouncementController extends Controller
         ]);
     }
 
-
-
     public function store(StoreAnnouncement $request)
     {
         try {

@@ -10,6 +10,7 @@ use App\Actions\Website\Conversation\GetMessagesAction;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\BotController;
 use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\LostItemController;
@@ -59,13 +60,10 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('showJobOpportunity/{id}', [JobOpportunityController::class, 'show']);
 
     // //// questions
-    Route::resource('questions',QuestionController::class);
-    Route::get('answer/{question:id}',[AnswerController::class,'index']);
-    Route::resource('answer',AnswerController::class)->except(['show','index']);
-    Route::put('answer/check/{answer:id}',[AnswerController::class,'check']);
-
-
-
+    Route::resource('questions', QuestionController::class);
+    Route::get('answer/{question:id}', [AnswerController::class, 'index']);
+    Route::resource('answer', AnswerController::class)->except(['show', 'index']);
+    Route::put('answer/check/{answer:id}', [AnswerController::class, 'check']);
 
     // /// Academic Year
     Route::get('getAcademicYears', [AcademicYearController::class, 'index']);
@@ -75,4 +73,10 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('getWorkSchedules', [WorkScheduleController::class, 'getSchedulesBySemesterID']);
 
     Route::get('getExamSchedules', [ExamScheduleController::class, 'getSchedulesBySemesterID']);
+    // bot
+    Route::post('bot/Store', [BotController::class, 'store']);
+    Route::get('bot', [BotController::class, 'index']);
+
+
+
 });

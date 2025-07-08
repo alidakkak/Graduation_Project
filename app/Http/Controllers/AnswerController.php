@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\ApiHelper\ApiResponseHelper;
+use App\ApiHelper\Result;
+use App\Http\Resources\AnswerResource;
 use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Http\Request;
-use App\Http\Resources\AnswerResource;
-use App\ApiHelper\ApiResponseHelper;
-use App\ApiHelper\Result;
 
 class AnswerController extends Controller
 {
     /**
      * عرض جميع الإجابات لسؤال معين.
      */
-    public function index(Request $request,Question $question)
+    public function index(Request $request, Question $question)
     {
         $answers = $question->answers()->latest()->paginate(10);
 
@@ -53,6 +53,7 @@ class AnswerController extends Controller
     public function show($id)
     {
         $answer = Answer::findOrFail($id);
+
         return new AnswerResource($answer);
     }
 
@@ -89,13 +90,11 @@ class AnswerController extends Controller
 
         // تحديث قيمة check (قلب القيمة من true إلى false أو العكس)
         $answer->update([
-            'check' => !$answer->check,
+            'check' => ! $answer->check,
         ]);
 
         return new AnswerResource($answer);
     }
-
-
 
     /**
      * حذف إجابة.

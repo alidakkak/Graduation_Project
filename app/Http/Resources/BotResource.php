@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnswerResource extends JsonResource
+class BotResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,9 @@ class AnswerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'body' => $this->body,
-            'check' => boolval($this->check),
-            'student_id' => $this->student_id,
-            'created_at' => $this->created_at,
-        ];
+            'message' => $this->message,
+            'answer' => $this->answer,
 
+        ];
     }
 }

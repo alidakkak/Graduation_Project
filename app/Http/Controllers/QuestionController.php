@@ -7,9 +7,7 @@ use App\ApiHelper\Result;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
-use GPBMetadata\Google\Api\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class QuestionController extends Controller
 {
@@ -33,7 +31,8 @@ class QuestionController extends Controller
             'last_page' => $questions->lastPage(),
             'per_page' => $questions->perPage(),
         ];
-        return ApiResponseHelper::sendResponseWithPagination(new Result(QuestionResource::collection($questions->items()),"get questions ",$pagination));
+
+        return ApiResponseHelper::sendResponseWithPagination(new Result(QuestionResource::collection($questions->items()), 'get questions ', $pagination));
     }
 
     /**
@@ -43,7 +42,7 @@ class QuestionController extends Controller
     {
         $data = $request->validated();
         $data = array_merge($data, ['student_id' => auth('api_student')->id()]);
-        $question= Question::create($data);
+        $question = Question::create($data);
 
         return new QuestionResource($question);
     }
@@ -54,6 +53,7 @@ class QuestionController extends Controller
     public function show(string $id)
     {
         $question = Question::findOrFail($id);
+
         return new QuestionResource($question);
     }
 
@@ -70,6 +70,7 @@ class QuestionController extends Controller
         }
 
         $question->update($request->validated());
+
         return new QuestionResource($question);
     }
 

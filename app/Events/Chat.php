@@ -16,6 +16,7 @@ class Chat implements ShouldBroadcast
     public function broadcastOn()
     {
         dd(12);
+
         return ['chat-room.'.$this->message->conversation_id];
     }
 
