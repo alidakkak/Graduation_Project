@@ -25,12 +25,8 @@ class QuestionController extends Controller
             $query->where('title', 'like', "%$keyword%")
                 ->orWhere('body', 'like', "%$keyword%");
         }
-        $questions = $query->latest()->paginate(10);
-        if ($request->has('keyword')) {
-            $keyword = $request->keyword;
-            $query->where('title', 'like', "%$keyword%")
-                ->orWhere('body', 'like', "%$keyword%");
-        }
+        $questions = Question::withCount('answers')->latest()->paginate(10);
+
         $pagination = [
             'total' => $questions->total(),
             'current_page' => $questions->currentPage(),
