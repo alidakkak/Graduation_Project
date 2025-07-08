@@ -17,6 +17,8 @@ class AnswerResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
+            'check' => boolval($this->check),
+            'student_id'=>$this->student_id,
             'created_at' => $this->created_at,
         ];
 

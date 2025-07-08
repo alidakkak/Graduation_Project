@@ -78,6 +78,25 @@ class AnswerController extends Controller
         return new AnswerResource($answer);
     }
 
+    public function check($id)
+    {
+        $answer = Answer::findOrFail($id);
+
+        // التأكد من أن الطالب هو صاحب السؤال
+        if ($answer->question->student_id !== auth('api_student')->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // تحديث قيمة check (قلب القيمة من true إلى false أو العكس)
+        $answer->update([
+            'check' => !$answer->check,
+        ]);
+
+        return new AnswerResource($answer);
+    }
+
+
+
     /**
      * حذف إجابة.
      */

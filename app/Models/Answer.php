@@ -11,6 +11,7 @@ class Answer extends Model
 
     protected $fillable = [
         'body',
+        'check',
         'question_id',
         'student_id',
     ];

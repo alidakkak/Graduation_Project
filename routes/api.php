@@ -62,6 +62,9 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::resource('questions',QuestionController::class);
     Route::get('answer/{question:id}',[AnswerController::class,'index']);
     Route::resource('answer',AnswerController::class)->except(['show','index']);
+    Route::put('answer/check/{answer:id}',[AnswerController::class,'check']);
+
+
 
 
     // /// Academic Year
