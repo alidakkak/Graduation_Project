@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
 use App\Http\Resources\BotResource;
-use App\Http\Resources\QuestionResource;
+use App\Models\Bot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Models\Bot;
 
 class BotController extends Controller
 {
@@ -27,7 +26,7 @@ class BotController extends Controller
             'message' => $request->message,
         ]);
 
-        if (!$response->ok()) {
+        if (! $response->ok()) {
             return response()->json(['message' => 'فشل الاتصال بالسيرفر الخارجي'], 500);
         }
 

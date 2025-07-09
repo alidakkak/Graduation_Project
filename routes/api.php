@@ -77,6 +77,4 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::post('bot/Store', [BotController::class, 'store']);
     Route::get('bot', [BotController::class, 'index']);
 
-
-
 });

@@ -11,6 +11,7 @@ use App\Models\Message;
 use App\Models\Recipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class CreateMessageAction
 {
@@ -28,13 +29,32 @@ class CreateMessageAction
             'type' => 'nullable|string|in:text,attachment',
         ]);
         $studentId = Auth::guard('api_student')->id();
+        // فحص الكراهية
+        $isHate = false;
+        if (($data['type'] ?? 'text') === 'text') {
+            try {
+                $response = Http::post('http://89.116.23.191:8090/predict', [
+                    'text' => $data['body'],
+                ]);
+
+                if ($response->successful()) {
+                    $result = $response->json();
+                    $isHate = $result['is_hate'] ?? false;
+                }
+            } catch (\Exception $e) {
+                \Log::error('Hate speech detection API failed: '.$e->getMessage());
+            }
+        }
+
         $message = Message::create([
             'conversation_id' => $data['conversation_id'],
             'student_id' => $studentId,
             'type' => $data['type'] ?? 'text',
             'body' => $data['body'],
-
+            'message_id' => $data['replay_message_id'] ?? null,
+            'hate' => $isHate,
         ]);
+
         Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
         $otherStudentIds = Conversation::findOrFail($data['conversation_id'])->students()->where('students.id', '!=', $studentId)->pluck('students.id');
         $recipientsData = $otherStudentIds->map(function ($sid) use ($message, $data) {

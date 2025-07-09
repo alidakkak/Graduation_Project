@@ -30,11 +30,16 @@ class Message extends Model
         }
     }
 
-    protected $fillable = ['student_id', 'message_id', 'type', 'body', 'conversation_id'];
+    protected $fillable = ['student_id', 'message_id', 'hate', 'type', 'body', 'conversation_id'];
 
     public function sender()
     {
         return $this->belongsTo(Student::class, 'student_id');
+    }
+
+    public function replay()
+    {
+        return $this->belongsTo(Message::class, 'message_id');
     }
 
     public function conversation()

@@ -18,10 +18,12 @@ class MessageResource extends JsonResource
         return [
             'id' => $this->id,
             'type' => $this->type,
+            'hate' => boolval($this->hate),
             'body' => $this->type == 'text' ? $this->body : asset($this->body),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'sender_id' => $this->sender?->id,
             'sender_name' => $this->sender?->first_name,
+            'replay' => MessageResource::make($this->replay),
 
         ];
     }

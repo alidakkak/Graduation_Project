@@ -23,7 +23,7 @@ class GetMessagesAction
         $perPage = $data['per_page'] ?? 20;
 
         $messages = $conversation->messages()
-            ->with('sender')
+            ->with(['sender', 'replay'])
             ->orderBy('id', 'desc')
             ->paginate($perPage);
 
