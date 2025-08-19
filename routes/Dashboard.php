@@ -11,6 +11,9 @@ use App\Http\Controllers\WorkScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => ['auth:api']], function () {
+
 Route::get('getStudentNotRegistrationComplete', [StudentController::class, 'getStudentNotRegistrationComplete']);
 Route::patch('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);
 
@@ -51,3 +54,4 @@ Route::get('getLostItems', [LostItemController::class, 'index']);
 Route::get('showLostItem/{id}', [LostItemController::class, 'show']);
 Route::delete('lostItem/{id}', [LostItemController::class, 'delete']);
 Route::post('lostItem/{id}', [LostItemController::class, 'update']);
+});
