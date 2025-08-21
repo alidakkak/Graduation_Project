@@ -15,7 +15,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:api']], function () {
 
 Route::get('getStudentNotRegistrationComplete', [StudentController::class, 'getStudentNotRegistrationComplete']);
-Route::patch('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);
+Route::put('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);
 
 // ////  Announcements
 Route::post('announcement', [AnnouncementController::class, 'store']);
