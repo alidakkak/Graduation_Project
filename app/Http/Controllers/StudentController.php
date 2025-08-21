@@ -32,7 +32,7 @@ class StudentController extends Controller
 
             return response()->json([
                 'message' => 'عليك الانتظار حتى يتم تأكيد حسابك',
-                'student' => StudentResource::make($student),
+//                'student' => StudentResource::make($student),
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
