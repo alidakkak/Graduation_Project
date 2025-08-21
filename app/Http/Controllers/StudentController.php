@@ -156,4 +156,10 @@ class StudentController extends Controller
 
         return ApiResponseHelper::sendResponse(new Result($subjects));
     }
+
+    public function myProfile()
+    {
+        $user = Auth::guard('api_student')->user();
+        return StudentResource::make($user);
+    }
 }

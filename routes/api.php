@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::post('group', CreateGroupAction::class);
     Route::delete('exitConversation/{conversation}', ExitConversationAction::class);
 
+    //// Student Profile
+    Route::get('myProfile', [StudentController::class, 'myProfile']);
+
     // // Lost Item
     Route::get('lostItems', [LostItemController::class, 'index']);
     Route::get('lostItem/{id}', [LostItemController::class, 'show']);
