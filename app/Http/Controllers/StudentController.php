@@ -106,7 +106,7 @@ class StudentController extends Controller
         $user = Auth::guard('api_student')->user();
 
         return response()->json([
-            'user' => $user,
+            'user' => StudentResource::make($user),
             'token' => $token,
         ],200);
 
