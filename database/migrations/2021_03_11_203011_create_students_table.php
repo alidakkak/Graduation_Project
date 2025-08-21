@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('profileImage')->default('/students_profile_image/default-user-profile.jpg');
             $table->string('password');
-            $table->boolean('verified')->nullable();
+            $table->boolean('verified')->default(0);
             $table->boolean('is_registration_complete')->default(0);
             $table->enum('academic_year', [AcademicYear::First_Year, AcademicYear::Second_Year, AcademicYear::Third_Year, AcademicYear::Fourth_Year, AcademicYear::Fifth_Year]);
             $table->enum('specialization', [Specialization::Software_Engineering, Specialization::Artificial_Intelligence, Specialization::Networks, Specialization::General]);
