@@ -33,7 +33,7 @@ class StudentController extends Controller
             return response()->json([
                 'message' => 'عليك الانتظار حتى يتم تأكيد حسابك',
                 'student' => StudentResource::make($student),
-            ], 404);
+            ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -100,7 +100,7 @@ class StudentController extends Controller
             ->where('verified', '!=', 1)
             ->first();
         if ($student) {
-            return response()->json(['message' => 'يجب عليك الانتظار حتى يتم تفعيل حسابك']);
+            return response()->json(['message' => 'يجب عليك الانتظار حتى يتم تفعيل حسابك'],422);
         }
 
         $user = Auth::guard('api_student')->user();
