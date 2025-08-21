@@ -22,7 +22,7 @@ class StudentResource extends JsonResource
             'father_name' => $this->father_name,
             'university_number' => $this->university_number,
             'image' => url($this->image),
-            'profileImage' => url($this->profileImage),
+            'profileImage' => $this->profileImage,
             'verified' => boolval($this->verified),
             'is_registration_complete' => $this->is_registration_complete,
         ];
