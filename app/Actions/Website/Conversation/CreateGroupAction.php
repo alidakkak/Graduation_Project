@@ -5,7 +5,6 @@ namespace App\Actions\Website\Conversation;
 use App\ApiHelper\ApiResponseHelper;
 use App\Models\Conversation;
 use App\Models\Member;
-use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,21 +18,36 @@ class CreateGroupAction
     public function __invoke(Request $request)
     {
         $data = $request->validate([
-            'label' => 'required|string',
+            'label'     => 'required|string',
+            'members'   => 'required|array|min:1',  // لازم يكون فيه عضو واحد على الأقل
+            'members.*' => 'integer|exists:students,id',
         ]);
+
         $studentId = Auth::guard('api_student')->id();
+
+        // إنشاء المحادثة (جروب)
         $conversation = Conversation::create([
             'student_id' => $studentId,
-            'type' => 'group',
-            'label' => $data['label'],
-
+            'type'       => 'group',
+            'label'      => $data['label'],
         ]);
-        $member = Member::create([
-            'student_id' => $studentId,
+
+        // إضافة المنشئ نفسه كعضو
+        Member::create([
+            'student_id'      => $studentId,
             'conversation_id' => $conversation->id,
         ]);
 
-        return ApiResponseHelper::sendMessageResponse('create successfully');
+        // إضافة باقي الأعضاء
+        foreach ($data['members'] as $memberId) {
+            if ($memberId != $studentId) {
+                Member::create([
+                    'student_id'      => $memberId,
+                    'conversation_id' => $conversation->id,
+                ]);
+            }
+        }
 
+        return ApiResponseHelper::sendMessageResponse('Group created successfully');
     }
 }

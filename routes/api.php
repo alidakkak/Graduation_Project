@@ -7,6 +7,8 @@ use App\Actions\Website\Conversation\GetConversationAction;
 use App\Actions\Website\Conversation\GetFilesAction;
 use App\Actions\Website\Conversation\GetMemberAction;
 use App\Actions\Website\Conversation\GetMessagesAction;
+use App\Actions\Website\Conversation\GetPrivateConversationAction;
+use App\Actions\Website\Conversation\GetUsersAction;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AnswerController;
@@ -36,6 +38,8 @@ Route::get('getSubject', [StudentController::class, 'getSubject']);
 Route::group(['middleware' => ['auth:api_student']], function () {
     // // conversation
     Route::get('conversation', GetConversationAction::class);
+    Route::get('privateConversation', GetPrivateConversationAction::class);
+    Route::get('users', GetUsersAction::class);
     Route::get('/conversations/{conversation}', GetMessagesAction::class);
     Route::get('/members/{conversation}', GetMemberAction::class);
     Route::get('/files/{conversation}', GetFilesAction::class);
@@ -43,7 +47,7 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::post('group', CreateGroupAction::class);
     Route::delete('exitConversation/{conversation}', ExitConversationAction::class);
 
-    //// Student Profile
+    // // Student Profile
     Route::get('myProfile', [StudentController::class, 'myProfile']);
     Route::post('updateProfile/{student}', [StudentController::class, 'updateProfile']);
 

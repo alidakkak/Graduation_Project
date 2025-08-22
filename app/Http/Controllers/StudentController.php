@@ -33,12 +33,12 @@ class StudentController extends Controller
 
             return response()->json([
                 'message' => 'عليك الانتظار حتى يتم تأكيد حسابك',
-                'student' => [ 'id' => $student->id,
+                'student' => ['id' => $student->id,
                     'full_name' => $student->first_name.' '.$student->father_name.' '.$student->last_name,
                     'first_name' => $student->first_name,
                     'last_name' => $student->last_name,
                     'father_name' => $student->father_name,
-                    'university_number' => $student->university_number,],
+                    'university_number' => $student->university_number, ],
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -106,7 +106,7 @@ class StudentController extends Controller
             ->where('verified', '!=', 1)
             ->first();
         if ($student) {
-            return response()->json(['message' => 'يجب عليك الانتظار حتى يتم تفعيل حسابك'],422);
+            return response()->json(['message' => 'يجب عليك الانتظار حتى يتم تفعيل حسابك'], 422);
         }
 
         $user = Auth::guard('api_student')->user();
@@ -114,7 +114,7 @@ class StudentController extends Controller
         return response()->json([
             'user' => StudentResource::make($user),
             'token' => $token,
-        ],200);
+        ], 200);
 
     }
 
@@ -166,6 +166,7 @@ class StudentController extends Controller
     public function myProfile()
     {
         $user = Auth::guard('api_student')->user();
+
         return StudentResource::make($user);
     }
 
@@ -200,20 +201,20 @@ class StudentController extends Controller
                 $newSubjects = array_merge($newSubjects, $autoSubjects);
             }
 
-            if (!empty($validated['subjects'])) {
+            if (! empty($validated['subjects'])) {
                 $newSubjects = array_merge($newSubjects, $validated['subjects']);
             }
 
             $newSubjects = array_filter(array_unique(array_map('intval', $newSubjects)));
 
-            if (!empty($newSubjects)) {
+            if (! empty($newSubjects)) {
                 $student->subjects()->syncWithoutDetaching($newSubjects);
 
                 $conversationIds = Conversation::whereIn('subject_id', $newSubjects)
                     ->pluck('id')
                     ->all();
 
-                if (!empty($conversationIds)) {
+                if (! empty($conversationIds)) {
                     $student->conversations()->syncWithoutDetaching($conversationIds);
                 }
             }
@@ -229,7 +230,7 @@ class StudentController extends Controller
 
             return response()->json([
                 'message' => 'An error occurred',
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

@@ -28,7 +28,7 @@ class ConversationResource extends JsonResource
                 } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv', 'webm'])) {
                     $lastMessageBody = 'video';
                 } else {
-                    $lastMessageBody = 'file'; // أي ملف آخر
+                    $lastMessageBody = 'file';
                 }
             } else {
                 $lastMessageBody = $lastMessage->body;

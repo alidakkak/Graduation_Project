@@ -22,14 +22,14 @@ class UpdateProfileStudent extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name'    => 'sometimes|string',
-            'last_name'     => 'sometimes|string',
-            'father_name'   => 'sometimes|string',
-            'profileImage'  => 'sometimes|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'first_name' => 'sometimes|string',
+            'last_name' => 'sometimes|string',
+            'father_name' => 'sometimes|string',
+            'profileImage' => 'sometimes|image|mimes:jpeg,png,jpg,svg|max:2048',
             'academic_year' => 'sometimes',
-            'specialization'=> 'sometimes',
-            'subjects'      => 'sometimes|array',
-            'subjects.*'    => 'int|exists:subjects,id',
+            'specialization' => 'sometimes',
+            'subjects' => 'sometimes|array',
+            'subjects.*' => 'int|exists:subjects,id',
         ];
     }
 }

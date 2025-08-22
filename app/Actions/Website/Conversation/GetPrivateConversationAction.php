@@ -7,13 +7,13 @@ use App\ApiHelper\Result;
 use App\Http\Resources\ConversationResource;
 use Illuminate\Support\Facades\Auth;
 
-class GetConversationAction
+class GetPrivateConversationAction
 {
     public function __invoke()
     {
         $user = Auth::guard('api_student')->user();
 
-        $conversations = $user->conversations()->whereNull('conversations.student_id')
+        $conversations = $user->conversations()->whereNotNull('conversations.student_id')
             ->with([
                 'lastMessage' => function ($builder) {
                     $builder->with(['sender' => function ($builder) {
