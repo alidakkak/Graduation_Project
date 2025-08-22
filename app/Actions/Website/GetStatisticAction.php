@@ -39,6 +39,6 @@ class GetStatisticAction
             'per_page' => $hateMessages->perPage(),
         ];
 
-        return ApiResponseHelper::sendResponseWithPagination(new Result($data), 'get messages successfully', $pagination);
+        return ApiResponseHelper::sendResponseWithPagination(new Result($data, 'get messages successfully', $pagination));
     }
 }
