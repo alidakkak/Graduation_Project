@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\Website\GetStatisticAction;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuthController;
@@ -11,13 +12,14 @@ use App\Http\Controllers\WorkScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
+Route::get('Statistic', GetStatisticAction::class);
 
 Route::group(['middleware' => ['auth:api']], function () {
 
 Route::get('getStudentNotRegistrationComplete', [StudentController::class, 'getStudentNotRegistrationComplete']);
 Route::put('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);
 
-// ////  Announcements 
+// ////  Announcements
 Route::post('announcement', [AnnouncementController::class, 'store']);
 Route::post('announcement/{id}', [AnnouncementController::class, 'update']);
 Route::get('announcements', [AnnouncementController::class, 'index']);
