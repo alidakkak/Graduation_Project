@@ -5,6 +5,7 @@ namespace App\Actions\Website;
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
 use App\Http\Resources\HateMessageResource;
+use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Models\Student;
 
@@ -31,6 +32,13 @@ class GetStatisticAction
             'hateMessages'           => HateMessageResource::collection($hateMessages),
         ];
 
-        return ApiResponseHelper::sendResponse(new Result($data));
+        $pagination = [
+            'total' => $hateMessages->total(),
+            'current_page' => $hateMessages->currentPage(),
+            'last_page' => $hateMessages->lastPage(),
+            'per_page' => $hateMessages->perPage(),
+        ];
+
+        return ApiResponseHelper::sendResponseWithPagination(new Result(MessageResource::collection($data), 'get messages successfully', $pagination));
     }
 }
