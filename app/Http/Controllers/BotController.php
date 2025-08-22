@@ -22,8 +22,25 @@ class BotController extends Controller
 
         $studentId = auth('api_student')->id();
 
+        // اجلب آخر المحادثات السابقة لهذا الطالب لإرسالها كـ history
+        $history = Bot::where('student_id', $studentId)
+            ->latest()
+            ->take(5) // مثلاً آخر 5 رسائل فقط
+            ->get(['message', 'answer'])
+            ->map(function ($item) {
+                return [
+                    ['role' => 'user', 'content' => $item->message],
+                    ['role' => 'assistant', 'content' => $item->answer],
+                ];
+            })
+            ->flatten(1)
+            ->toArray();
+
+        // أرسل الرسالة مع الـ history
         $response = Http::post('http://89.116.23.191:8070/chat', [
             'message' => $request->message,
+            'history' => $history,
+            'include_sources' => true, // إذا كان مطلوباً كما في مثالك
         ]);
 
         if (! $response->ok()) {

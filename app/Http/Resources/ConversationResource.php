@@ -14,18 +14,37 @@ class ConversationResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $lastMessage = $this->lastMessage;
+
+        $lastMessageBody = null;
+
+        if ($lastMessage) {
+            if ($lastMessage->type === 'attachment') {
+                // استخرج الامتداد من الرابط أو الاسم
+                $extension = strtolower(pathinfo($lastMessage->body, PATHINFO_EXTENSION));
+
+                if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                    $lastMessageBody = 'image';
+                } elseif (in_array($extension, ['mp4', 'mov', 'avi', 'mkv', 'webm'])) {
+                    $lastMessageBody = 'video';
+                } else {
+                    $lastMessageBody = 'file'; // أي ملف آخر
+                }
+            } else {
+                $lastMessageBody = $lastMessage->body;
+            }
+        }
 
         return [
             'id' => $this->id,
             'label' => $this->label,
             'new_messages' => $this->new_messages,
             'last_message' => [
-                'Last_message_id' => $this->lastMessage?->id,
-                'Last_message_Type' => $this->lastMessage?->type,
-                'Last_message_Body' => $this->lastMessage?->type === 'attachment' ? asset($this->lastMessage?->body) : $this->lastMessage?->body,
-                'Last_message_Sender' => $this->lastMessage?->sender?->first_name,
+                'Last_message_id' => $lastMessage?->id,
+                'Last_message_Type' => $lastMessage?->type,
+                'Last_message_Body' => $lastMessageBody,
+                'Last_message_Sender' => $lastMessage?->sender?->first_name,
             ],
-
         ];
     }
 }
