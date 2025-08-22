@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth:api_student']], function () {
 
     //// Student Profile
     Route::get('myProfile', [StudentController::class, 'myProfile']);
+    Route::post('updateProfile/{student}', [StudentController::class, 'updateProfile']);
 
     // // Lost Item
     Route::get('lostItems', [LostItemController::class, 'index']);

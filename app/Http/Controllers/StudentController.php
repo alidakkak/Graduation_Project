@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
 use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateProfileStudent;
 use App\Http\Resources\StudentResource;
 use App\Models\Conversation;
 use App\Models\Student;
@@ -161,5 +162,70 @@ class StudentController extends Controller
     {
         $user = Auth::guard('api_student')->user();
         return StudentResource::make($user);
+    }
+
+    public function updateProfile(UpdateProfileStudent $request, $studentID)
+    {
+        $validated = $request->validated();
+
+        $student = Student::find($studentID);
+        if (! $student) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            foreach (['first_name', 'last_name', 'father_name', 'academic_year', 'specialization', 'profileImage'] as $field) {
+                if (array_key_exists($field, $validated)) {
+                    $student->{$field} = $validated[$field];
+                }
+            }
+
+            $student->save();
+
+            $newSubjects = [];
+
+            if (array_key_exists('academic_year', $validated) && array_key_exists('specialization', $validated)) {
+                $autoSubjects = Subject::where('year_id', $validated['academic_year'])
+                    ->where('specialization', $validated['specialization'])
+                    ->pluck('id')
+                    ->all();
+
+                $newSubjects = array_merge($newSubjects, $autoSubjects);
+            }
+
+            if (!empty($validated['subjects'])) {
+                $newSubjects = array_merge($newSubjects, $validated['subjects']);
+            }
+
+            $newSubjects = array_filter(array_unique(array_map('intval', $newSubjects)));
+
+            if (!empty($newSubjects)) {
+                $student->subjects()->syncWithoutDetaching($newSubjects);
+
+                $conversationIds = Conversation::whereIn('subject_id', $newSubjects)
+                    ->pluck('id')
+                    ->all();
+
+                if (!empty($conversationIds)) {
+                    $student->conversations()->syncWithoutDetaching($conversationIds);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Updated Successfully',
+            ]);
+
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'An error occurred',
+                'error'   => $e->getMessage(),
+            ], 500);
+        }
     }
 }
