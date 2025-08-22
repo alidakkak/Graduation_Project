@@ -17,7 +17,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::get('getStudentNotRegistrationComplete', [StudentController::class, 'getStudentNotRegistrationComplete']);
 Route::put('checkStudentData/{id}', [StudentController::class, 'checkStudentData']);
 
-// ////  Announcements
+// ////  Announcements 
 Route::post('announcement', [AnnouncementController::class, 'store']);
 Route::post('announcement/{id}', [AnnouncementController::class, 'update']);
 Route::get('announcements', [AnnouncementController::class, 'index']);
