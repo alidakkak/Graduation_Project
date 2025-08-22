@@ -10,7 +10,7 @@ class HateMessageResource extends JsonResource
     {
         return [
             'body'       => $this->body,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->toDateTimeString(),
             'sender'     => $this->sender ? $this->sender->first_name . ' ' . $this->sender->last_name : null,
             'group'      => $this->conversation ? $this->conversation->label : null,
         ];
