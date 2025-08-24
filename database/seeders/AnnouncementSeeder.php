@@ -29,7 +29,7 @@ class AnnouncementSeeder extends Seeder
 
         DB::table('announcement_images')->insert([
             'announcement_id' => 1,
-            'image' => '/announcements_image/ann1.jpg"'
+            'image' => '/announcements_image/ann1.jpg'
         ]);
     }
 }
