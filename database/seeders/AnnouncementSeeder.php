@@ -21,7 +21,9 @@ class AnnouncementSeeder extends Seeder
 
 وسيتم دراسة الطلبات من قبل رؤساء الأقسام.',
                 'academic_year' => '6',
-                'specialization' => '4'
+                'specialization' => '4',
+                'created_at'    => now(),
+                'updated_at'    => now()
             ],
         ]);
 
