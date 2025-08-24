@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             SemestersSeeder::class, YearsSeeder::class, SubjectSeeder::class, ConversationSeeder::class, WorkScheduleSeeder::class,
             ExamSchedulesSeeder::class,
             AdminSedder::class,
-            AnnouncementSeeder::class
+            AnnouncementSeeder::class,
         ]);
     }
 }

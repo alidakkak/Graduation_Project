@@ -18,8 +18,8 @@ class CreateGroupAction
     public function __invoke(Request $request)
     {
         $data = $request->validate([
-            'label'     => 'required|string',
-            'members'   => 'required|array|min:1',  // لازم يكون فيه عضو واحد على الأقل
+            'label' => 'required|string',
+            'members' => 'required|array|min:1',  // لازم يكون فيه عضو واحد على الأقل
             'members.*' => 'integer|exists:students,id',
         ]);
 
@@ -28,13 +28,13 @@ class CreateGroupAction
         // إنشاء المحادثة (جروب)
         $conversation = Conversation::create([
             'student_id' => $studentId,
-            'type'       => 'group',
-            'label'      => $data['label'],
+            'type' => 'group',
+            'label' => $data['label'],
         ]);
 
         // إضافة المنشئ نفسه كعضو
         Member::create([
-            'student_id'      => $studentId,
+            'student_id' => $studentId,
             'conversation_id' => $conversation->id,
         ]);
 
@@ -42,7 +42,7 @@ class CreateGroupAction
         foreach ($data['members'] as $memberId) {
             if ($memberId != $studentId) {
                 Member::create([
-                    'student_id'      => $memberId,
+                    'student_id' => $memberId,
                     'conversation_id' => $conversation->id,
                 ]);
             }

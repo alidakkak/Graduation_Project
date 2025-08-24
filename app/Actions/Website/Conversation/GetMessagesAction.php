@@ -15,7 +15,7 @@ class GetMessagesAction
     public function __invoke(Request $request, Conversation $conversation)
     {
         $data = $request->validate([
-            'per_page'   => 'nullable|integer|min:1',
+            'per_page' => 'nullable|integer|min:1',
             'message_id' => 'nullable|integer|min:1',
         ]);
 
@@ -47,7 +47,7 @@ class GetMessagesAction
         }
 
         // حالة وجود message_id
-        $messageId = (int)$data['message_id'];
+        $messageId = (int) $data['message_id'];
 
         // نأخذ أقل من message_id بعدد perPage (أقرب أولاً)، ثم نرتبها تصاعدياً
         $older = $conversation->messages()
