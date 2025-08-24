@@ -19,7 +19,7 @@ class AnswerResource extends JsonResource
             'body' => $this->body,
             'check' => boolval($this->check),
             'student_id' => $this->student_id,
-            'full_name' => $this->first_name.'  '.$this->last_name,
+            'full_name' => $this->student->first_name.'  '.$this->student->last_name,
             'created_at' => $this->created_at,
         ];
 
