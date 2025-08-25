@@ -14,7 +14,7 @@ class Conversation extends Model
     public function lastMessage()
     {
         return $this->belongsTo(Message::class, 'last_message_id', 'id')
-            ->where('hate',false)
+            ->where('hate',0)
             ->whereNull('deleted_at');
 
     }
