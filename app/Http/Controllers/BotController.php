@@ -46,19 +46,19 @@ class BotController extends Controller
         if (! $response->ok()) {
             return response()->json(['message' => 'فشل الاتصال بالسيرفر الخارجي'], 500);
         }
+        
+        $messages = Bot::where('student_id', $studentId)
+            ->latest()
+            ->paginate(30); // يمكنك تعديل العدد حسب الحاجة
+        $pagination = [
+            'total' => $messages->total(),
+            'current_page' => $messages->currentPage(),
+            'last_page' => $messages->lastPage(),
+            'per_page' => $messages->perPage(),
+        ];
 
-        $answer = $response->json('answer');
+        return ApiResponseHelper::sendResponseWithPagination(new Result(BotResource::collection($messages->items()), 'get messages ', $pagination));
 
-        $bot = Bot::create([
-            'student_id' => $studentId,
-            'message' => $request->message,
-            'answer' => $answer,
-        ]);
-
-        return response()->json([
-            'message' => $bot->message,
-            'answer' => $bot->answer,
-        ]);
     }
 
     /**
@@ -70,7 +70,7 @@ class BotController extends Controller
 
         $messages = Bot::where('student_id', $studentId)
             ->latest()
-            ->paginate(10); // يمكنك تعديل العدد حسب الحاجة
+            ->paginate(30); // يمكنك تعديل العدد حسب الحاجة
         $pagination = [
             'total' => $messages->total(),
             'current_page' => $messages->currentPage(),

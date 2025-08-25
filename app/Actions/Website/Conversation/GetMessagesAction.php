@@ -27,6 +27,7 @@ class GetMessagesAction
         if (empty($data['message_id'])) {
             $messages = $conversation->messages()
                 ->with(['sender', 'replay'])
+                ->where('hate',0)
                 ->orderBy('id', 'desc')
                 ->paginate($perPage);
 
@@ -53,6 +54,7 @@ class GetMessagesAction
         $older = $conversation->messages()
             ->with(['sender', 'replay'])
             ->where('id', '<', $messageId)
+            ->where('hate',0)
             ->orderBy('id', 'desc')
             ->limit($perPage)
             ->get()
@@ -63,6 +65,7 @@ class GetMessagesAction
         $newer = $conversation->messages()
             ->with(['sender', 'replay'])
             ->where('id', '>=', $messageId)
+            ->where('hate',0)
             ->orderBy('id', 'desc')
             ->get()
             ->values();
@@ -76,7 +79,7 @@ class GetMessagesAction
             ->update(['read_at' => now()]);
 
         // نعيد نفس حقول الـ pagination (نحسبها بناءً على إجمالي الرسائل في المحادثة)
-        $totalMessages = $combined->count();
+        $totalMessages = $older->count();
 
         $pagination = [
             'total' => $totalMessages,

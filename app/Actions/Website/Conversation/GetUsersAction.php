@@ -6,6 +6,7 @@ use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class GetUsersAction
@@ -32,7 +33,7 @@ class GetUsersAction
             DB::raw("CONCAT(first_name, ' ', father_name, ' ', last_name)"),
             'LIKE',
             $search.'%'
-        )->where('verified', 1);
+        )->where('verified', 1)->where('id','=!',  Auth::guard('api_student')->id());
 
         $users = $query
             ->select(
