@@ -70,7 +70,7 @@ class CreateMessageAction
         }
         if (($data['type'] ?? 'text') === 'text' && !$isHate ) {
             try {
-                Http::post('http://89.116.23.191:8100/api/add_messages', [
+                $response= Http::post('http://89.116.23.191:8100/api/add_messages', [
                     'messages' => [
                         [
                             'text' => $data['body'],
@@ -81,6 +81,7 @@ class CreateMessageAction
                         ]
                     ]
                 ]);
+                dd($response);
 
 
             } catch (\Exception $e) {
