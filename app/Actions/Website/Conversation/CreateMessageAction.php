@@ -75,13 +75,12 @@ class CreateMessageAction
                         [
                             'text' => $data['body'],
                             'message_id'=>$message->id,
-                            'sender' => "" ?? ' ',
+                            'sender' =>(string) $message->student_id,
                             'timestamp' => now()->toIso8601String(),
                             'group_id' => $data['conversation_id'],
                         ]
                     ]
                 ]);
-                dd($response);
 
 
             } catch (\Exception $e) {
