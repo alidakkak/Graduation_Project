@@ -70,17 +70,18 @@ class CreateMessageAction
         }
         if (($data['type'] ?? 'text') === 'text' && !$isHate ) {
             try {
-                $response= Http::post('http://89.116.23.191:8100/api/add_messages', [
+                $response = Http::post('http://89.116.23.191:8100/api/add_messages', [
                     'messages' => [
                         [
-                            'text' => $data['body'],
-                            'message_id'=> $message->id,
-                            'sender'=> "alice",
-                            'timestamp' => now()->toIso8601String(),
-                            'group_id' => (string) $data['conversation_id'],
+                            'text'       => $data['body'],
+                            'message_id' => (string) $message->id,
+                            'sender'     => $data['sender'] ?? ' ',
+                            'timestamp'  => now()->toIso8601String(),
+                            'group_id'   => (string) $data['conversation_id'], 
                         ]
                     ]
                 ]);
+
                 dd($response->json());
 
 
