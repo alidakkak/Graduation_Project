@@ -77,12 +77,11 @@ class CreateMessageAction
                             'message_id' => (string) $message->id,
                             'sender'     => $data['sender'] ?? ' ',
                             'timestamp'  => now()->toIso8601String(),
-                            'group_id'   => (string) $data['conversation_id'], 
+                            'group_id'   => (string) $data['conversation_id'],
                         ]
                     ]
                 ]);
 
-                dd($response->json());
 
 
             } catch (\Exception $e) {
