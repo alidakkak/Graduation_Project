@@ -64,9 +64,9 @@ class CreateMessageAction
                 'message_id' => $message->id, ];
         })->toArray();
         Recipient::insert($recipientsData);
-
-        event(new Chat($message));
-
+        if (!$isHate) {
+            event(new Chat($message));
+        }
         return ApiResponseHelper::sendResponse(new Result(MessageResource::make($message)));
 
     }
