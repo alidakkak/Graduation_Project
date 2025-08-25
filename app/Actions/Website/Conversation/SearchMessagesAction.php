@@ -19,7 +19,9 @@ class SearchMessagesAction
 
         try {
             // نرسل الطلب للـ API الخارجي
-            $response = Http::post('http://89.116.23.191:8100/api/search', [
+            $response =Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post('http://89.116.23.191:8100/api/search', [
                 'query'        => $data['query'],
                 'use_hybrid'   =>  true,
                 'use_reranking'=> true,
@@ -28,7 +30,7 @@ class SearchMessagesAction
             ]);
 
             if ($response->failed()) {
-                return ApiResponseHelper::sendMessageResponse('Search API failed', 500);
+                return ApiResponseHelper::sendMessageResponse('Search API failed', 500,false);
             }
 
             $result = $response->json();
