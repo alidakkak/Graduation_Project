@@ -25,7 +25,7 @@ class SearchMessagesAction
                 'query'        => $data['query'],
                 'use_hybrid'   =>  true,
                 'use_reranking'=> true,
-                'top_k'        =>  3,
+                'top_k'        =>  10,
                 'group_id'     =>(string)$conversation->id
             ]);
             if ($response->failed()) {
