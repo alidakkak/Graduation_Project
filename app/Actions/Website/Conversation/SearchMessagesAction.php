@@ -28,7 +28,7 @@ class SearchMessagesAction
                 'top_k'        =>  3,
                 'group_id'     =>$conversation->id
             ]);
-
+            dd($response);
             if ($response->failed()) {
                 return ApiResponseHelper::sendMessageResponse('Search API failed', 500,false);
             }
