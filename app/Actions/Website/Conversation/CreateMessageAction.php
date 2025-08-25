@@ -31,20 +31,6 @@ class CreateMessageAction
         $studentId = Auth::guard('api_student')->id();
         // فحص الكراهية
         $isHate = false;
-        if (($data['type'] ?? 'text') === 'text') {
-            try {
-                $response = Http::post('http://89.116.23.191:8090/predict', [
-                    'text' => $data['body'],
-                ]);
-
-                if ($response->successful()) {
-                    $result = $response->json();
-                    $isHate = $result['is_hate'] ?? false;
-                }
-            } catch (\Exception $e) {
-                \Log::error('Hate speech detection API failed: '.$e->getMessage());
-            }
-        }
 
         $message = Message::create([
             'conversation_id' => $data['conversation_id'],
@@ -54,6 +40,26 @@ class CreateMessageAction
             'message_id' => $data['replay_message_id'] ?? null,
             'hate' => $isHate,
         ]);
+        if (($data['type'] ?? 'text') === 'text') {
+            try {
+           Http::post('http://89.116.23.191:8100/api/add_messages', [
+                    'messages' => [
+                        [
+                            'text' => $data['body'],
+                            'message_id'=>$message->id,
+                            'sender' => "" ?? ' ',
+                            'timestamp' => now()->toIso8601String(),
+                            'group_id' => $data['conversation_id'],
+                        ]
+                    ]
+                ]);
+
+
+            } catch (\Exception $e) {
+                \Log::error('Hate speech detection API failed: '.$e->getMessage());
+            }
+        }
+
 
         Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
         $otherStudentIds = Conversation::findOrFail($data['conversation_id'])->students()->where('students.id', '!=', $studentId)->pluck('students.id');
@@ -66,7 +72,21 @@ class CreateMessageAction
         Recipient::insert($recipientsData);
         if (!$isHate) {
             event(new Chat($message));
+        }        if (($data['type'] ?? 'text') === 'text') {
+        try {
+            $response = Http::post('http://89.116.23.191:8090/predict', [
+                'text' => $data['body'],
+            ]);
+
+            if ($response->successful()) {
+                $result = $response->json();
+                $isHate = $result['is_hate'] ?? false;
+            }
+        } catch (\Exception $e) {
+            \Log::error('Hate speech detection API failed: '.$e->getMessage());
         }
+    }
+
         return ApiResponseHelper::sendResponse(new Result(MessageResource::make($message)));
 
     }
