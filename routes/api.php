@@ -9,6 +9,7 @@ use App\Actions\Website\Conversation\GetMemberAction;
 use App\Actions\Website\Conversation\GetMessagesAction;
 use App\Actions\Website\Conversation\GetPrivateConversationAction;
 use App\Actions\Website\Conversation\GetUsersAction;
+use App\Actions\Website\Conversation\SearchMessagesAction;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AnswerController;
@@ -42,6 +43,7 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     Route::get('users', GetUsersAction::class);
     Route::get('/conversations/{conversation}', GetMessagesAction::class);
     Route::get('/members/{conversation}', GetMemberAction::class);
+    Route::get('/search/{conversation}', SearchMessagesAction::class);
     Route::get('/files/{conversation}', GetFilesAction::class);
     Route::post('message', CreateMessageAction::class);
     Route::post('group', CreateGroupAction::class);
