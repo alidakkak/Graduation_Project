@@ -26,9 +26,8 @@ class SearchMessagesAction
                 'use_hybrid'   =>  true,
                 'use_reranking'=> true,
                 'top_k'        =>  3,
-                'group_id'     =>$conversation->id
+                'group_id'     =>(string)$conversation->id
             ]);
-            dd($response);
             if ($response->failed()) {
                 return ApiResponseHelper::sendMessageResponse('Search API failed', 500,false);
             }
