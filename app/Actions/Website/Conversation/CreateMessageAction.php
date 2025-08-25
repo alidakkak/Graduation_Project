@@ -77,7 +77,7 @@ class CreateMessageAction
                             'message_id'=>$message->id,
                             "sender"=> "alice",
                             'timestamp' => now()->toIso8601String(),
-                            'group_id' => $data['conversation_id'],
+                            'group_id' =>(string) $data['conversation_id'],
                         ]
                     ]
                 ]);
