@@ -16,13 +16,14 @@ class SearchMessagesAction
         $data = $request->validate([
             'query' => 'required|string',
         ]);
+        $query = preg_replace('/\p{Cf}/u', '', $data['query']);
 
         try {
             // نرسل الطلب للـ API الخارجي
             $response =Http::withHeaders([
                 'Content-Type' => 'application/json',
             ])->post('http://89.116.23.191:8100/api/search', [
-                'query'        => $data['query'],
+                'query'        => $query,
                 'use_hybrid'   =>  true,
                 'use_reranking'=> true,
                 'top_k'        =>  10,
@@ -33,7 +34,6 @@ class SearchMessagesAction
             }
 
             $result = $response->json();
-            dd($result);
             $messages = collect($result['results'] ?? [])->map(function ($item) {
                 return [
                     'message_id' => $item['message']['message_id'] ?? null,
