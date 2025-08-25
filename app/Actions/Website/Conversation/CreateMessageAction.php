@@ -31,15 +31,6 @@ class CreateMessageAction
         $studentId = Auth::guard('api_student')->id();
         // فحص الكراهية
         $isHate = false;
-
-        $message = Message::create([
-            'conversation_id' => $data['conversation_id'],
-            'student_id' => $studentId,
-            'type' => $data['type'] ?? 'text',
-            'body' => $data['body'],
-            'message_id' => $data['replay_message_id'] ?? null,
-            'hate' => $isHate,
-        ]);
         if (($data['type'] ?? 'text') === 'text') {
             try {
                 $response = Http::post('http://89.116.23.191:8090/predict', [
@@ -54,6 +45,15 @@ class CreateMessageAction
                 \Log::error('Hate speech detection API failed: '.$e->getMessage());
             }
         }
+
+        $message = Message::create([
+            'conversation_id' => $data['conversation_id'],
+            'student_id' => $studentId,
+            'type' => $data['type'] ?? 'text',
+            'body' => $data['body'],
+            'message_id' => $data['replay_message_id'] ?? null,
+            'hate' => $isHate,
+        ]);
 
         Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
         $otherStudentIds = Conversation::findOrFail($data['conversation_id'])->students()->where('students.id', '!=', $studentId)->pluck('students.id');
