@@ -54,7 +54,7 @@ class CreateMessageAction
             'message_id' => $data['replay_message_id'] ?? null,
             'hate' => $isHate,
         ]);
-        if ($isHate) {
+        if (!$isHate) {
 
             Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
         }
