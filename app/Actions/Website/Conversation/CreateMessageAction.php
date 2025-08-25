@@ -72,16 +72,16 @@ class CreateMessageAction
             try {
                 $response= Http::post('http://89.116.23.191:8100/api/add_messages', [
                     'messages' => [
-                     [   [
+                        [
                             'text' => $data['body'],
-                            'message_id'=>$message->id,
-                            "sender"=> "alice",
+                            'message_id'=> $message->id,
+                            'sender'=> "alice",
                             'timestamp' => now()->toIso8601String(),
-                            'group_id' =>(string) $data['conversation_id'],
-                        ]]
+                            'group_id' => (string) $data['conversation_id'],
+                        ]
                     ]
                 ]);
-                dd($response);
+                dd($response->json());
 
 
             } catch (\Exception $e) {
