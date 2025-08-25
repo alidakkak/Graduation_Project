@@ -46,7 +46,14 @@ class BotController extends Controller
         if (! $response->ok()) {
             return response()->json(['message' => 'فشل الاتصال بالسيرفر الخارجي'], 500);
         }
-        
+
+        $answer = $response->json('answer');
+
+        $bot = Bot::create([
+            'student_id' => $studentId,
+            'message' => $request->message,
+            'answer' => $answer,
+        ]);
         $messages = Bot::where('student_id', $studentId)
             ->latest()
             ->paginate(30); // يمكنك تعديل العدد حسب الحاجة
