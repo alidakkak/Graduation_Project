@@ -19,7 +19,6 @@ class QuestionResource extends JsonResource
             'title' => $this->title,
             'body' => $this->body,
             'student_id' => $this->student_id,
-            'full_name' => $this->student->first_name.'  '.$this->student->last_name,
             'answers_count' => $this->answers_count,
 
         ];
