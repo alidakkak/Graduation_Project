@@ -33,7 +33,7 @@ class SearchMessagesAction
             }
 
             $result = $response->json();
-
+            dd($result);
             $messages = collect($result['results'] ?? [])->map(function ($item) {
                 return [
                     'message_id' => $item['message']['message_id'] ?? null,
