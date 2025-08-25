@@ -15,9 +15,6 @@ class SearchMessagesAction
         // نتحقق من البيانات القادمة
         $data = $request->validate([
             'query' => 'required|string',
-            'use_hybrid' => 'boolean',
-            'use_reranking' => 'boolean',
-            'top_k' => 'integer|min:1|max:20',
         ]);
 
         try {
