@@ -27,8 +27,8 @@ class GetMessagesAction
         if (empty($data['message_id'])) {
             $messages = $conversation->messages()
                 ->with(['sender', 'replay'])
-                ->orderBy('id', 'desc')
                 ->where('hate',0)
+                ->orderBy('id', 'desc')
                 ->paginate($perPage);
 
             Recipient::where('student_id', $studentId)
@@ -54,8 +54,8 @@ class GetMessagesAction
         $older = $conversation->messages()
             ->with(['sender', 'replay'])
             ->where('id', '<', $messageId)
-            ->orderBy('id', 'desc')
             ->where('hate',0)
+            ->orderBy('id', 'desc')
             ->limit($perPage)
             ->get()
             ->sortBy('id')   // ليصبح الترتيب الطبيعي: أصغر -> أكبر (مثال: 4,5)
@@ -65,8 +65,8 @@ class GetMessagesAction
         $newer = $conversation->messages()
             ->with(['sender', 'replay'])
             ->where('id', '>=', $messageId)
-            ->orderBy('id', 'desc')
             ->where('hate',0)
+            ->orderBy('id', 'desc')
             ->get()
             ->values();
 
