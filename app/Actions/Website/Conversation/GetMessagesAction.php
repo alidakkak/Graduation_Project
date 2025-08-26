@@ -21,7 +21,7 @@ class GetMessagesAction
 
         $studentId = Auth::guard('api_student')->id();
 
-        $perPage = $data['per_page'] ?? 100;
+        $perPage = $data['per_page'] ?? 50;
 
         // حالة عدم تمرير message_id => نفس السلوك القديم (paginate تنازلي)
         if (empty($data['message_id'])) {
@@ -58,7 +58,6 @@ class GetMessagesAction
             ->orderBy('id', 'desc')
             ->limit($perPage)
             ->get()
-            ->sortBy('id')   // ليصبح الترتيب الطبيعي: أصغر -> أكبر (مثال: 4,5)
             ->values();
 
         // نأخذ الرسالة نفسها وكل الرسائل الأحدث (id >= message_id) بترتيب تصاعدي

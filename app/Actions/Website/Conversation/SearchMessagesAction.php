@@ -38,6 +38,8 @@ class SearchMessagesAction
                 return [
                     'message_id' => $item['message']['message_id'] ?? null,
                     'text'       => $item['message']['text'] ?? null,
+                    'sender_name'       => $item['message']['sender'] ?? null,
+
                 ];
             });
 
