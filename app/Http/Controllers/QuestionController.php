@@ -18,21 +18,34 @@ class QuestionController extends Controller
     {
         $query = Question::query();
 
-        if ($request->has('keyword')) {
-            $keyword = $request->keyword;
-            $query->where('title', 'like', "%$keyword%")
-                ->orWhere('body', 'like', "%$keyword%");
+        $keyword = $request->string('keyword')->trim();
+        if ($keyword->isNotEmpty()) {
+            $kw = "%{$keyword}%";
+            $query->where(function ($q) use ($kw) {
+                $q->where('title', 'like', $kw)
+                    ->orWhere('body', 'like', $kw);
+            });
         }
-        $questions = Question::withCount('answers')->latest()->paginate(10);
+
+        $questions = $query
+            ->withCount('answers')
+            ->latest()
+            ->paginate(10);
 
         $pagination = [
-            'total' => $questions->total(),
+            'total'        => $questions->total(),
             'current_page' => $questions->currentPage(),
-            'last_page' => $questions->lastPage(),
-            'per_page' => $questions->perPage(),
+            'last_page'    => $questions->lastPage(),
+            'per_page'     => $questions->perPage(),
         ];
 
-        return ApiResponseHelper::sendResponseWithPagination(new Result(QuestionResource::collection($questions->items()), 'get questions ', $pagination));
+        return ApiResponseHelper::sendResponseWithPagination(
+            new Result(
+                QuestionResource::collection($questions->items()),
+                'get questions',
+                $pagination
+            )
+        );
     }
 
     /**
