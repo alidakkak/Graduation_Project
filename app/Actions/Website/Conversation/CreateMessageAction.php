@@ -54,8 +54,10 @@ class CreateMessageAction
             'message_id' => $data['replay_message_id'] ?? null,
             'hate' => $isHate,
         ]);
+        if (!$isHate) {
 
-        Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
+            Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
+        }
         $otherStudentIds = Conversation::findOrFail($data['conversation_id'])->students()->where('students.id', '!=', $studentId)->pluck('students.id');
         $recipientsData = $otherStudentIds->map(function ($sid) use ($message, $data) {
             return [
@@ -65,7 +67,30 @@ class CreateMessageAction
         })->toArray();
         Recipient::insert($recipientsData);
 
-        event(new Chat($message));
+        if (!$isHate) {
+            event(new Chat($message));
+        }
+        if (($data['type'] ?? 'text') === 'text' && !$isHate ) {
+            try {
+                $response = Http::post('http://89.116.23.191:8100/api/add_messages', [
+                    'messages' => [
+                        [
+                            'text'       => $data['body'],
+                            'message_id' => (string) $message->id,
+                            'sender'     => $message->sender?->first_name ?? ' ',
+                            'timestamp'  => now()->toIso8601String(),
+                            'group_id'   => (string) $data['conversation_id'],
+                        ]
+                    ]
+                ]);
+
+
+
+            } catch (\Exception $e) {
+                \Log::error('Hate speech detection API failed: '.$e->getMessage());
+            }
+        }
+
 
         return ApiResponseHelper::sendResponse(new Result(MessageResource::make($message)));
 
