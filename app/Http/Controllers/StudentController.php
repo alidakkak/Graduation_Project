@@ -181,7 +181,7 @@ class StudentController extends Controller
                     $body,
                     $tokens,
                     [
-                        'student_id' => (string) $student->id,
+                        'student_id' => $student->id,
                         'type'       => 'account_activated',
                     ]
                 );
