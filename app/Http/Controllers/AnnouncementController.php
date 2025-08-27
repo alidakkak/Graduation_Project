@@ -81,6 +81,7 @@ class AnnouncementController extends Controller
             }
 
             $tokens = $tokensQuery->pluck('device_tokens.device_token')->toArray();
+            dd($tokens);
 
              Notification::create([
                 'title'           => $announcement->title ?? 'إعلان جديد',
