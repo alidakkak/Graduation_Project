@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
+            $table->text('body')->nullable();
+            $table->unsignedBigInteger('announcement_id')->nullable()->index();
+            $table->unsignedSmallInteger('academic_year')->nullable()->index();
+            $table->unsignedSmallInteger('specialization')->nullable()->index();
+            $table->unsignedInteger('tokens_count')->default(0);
             $table->timestamps();
         });
     }
