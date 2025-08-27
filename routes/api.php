@@ -17,6 +17,7 @@ use App\Http\Controllers\BotController;
 use App\Http\Controllers\ExamScheduleController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\LostItemController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\WorkScheduleController;
@@ -86,5 +87,8 @@ Route::group(['middleware' => ['auth:api_student']], function () {
     // bot
     Route::post('bot/Store', [BotController::class, 'store']);
     Route::get('bot', [BotController::class, 'index']);
+
+    /// Notification
+    Route::get('getNotifications', [NotificationController::class, 'index']);
 
 });
