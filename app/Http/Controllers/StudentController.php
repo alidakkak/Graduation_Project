@@ -175,7 +175,6 @@ class StudentController extends Controller
                 'specialization' => null,
                 'tokens_count'   => count($tokens),
             ]);
-            if (!empty($tokens)) {
                 $firebase = app(FirebaseService::class);
                 $firebase->BasicSendNotification(
                     $title,
@@ -186,7 +185,7 @@ class StudentController extends Controller
                         'type'       => 'account_activated',
                     ]
                 );
-            }}
+            }
 
         return response()->json([
             'message' => 'Registration completed successfully',
