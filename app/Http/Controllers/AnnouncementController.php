@@ -8,6 +8,7 @@ use App\Jobs\SendPublicAnnouncementNotification;
 use App\Models\Announcement;
 use App\Models\DeviceToken;
 use App\Models\Notification;
+use App\Services\FirebaseService;
 use App\Statuses\AcademicYear;
 use App\Statuses\Specialization;
 use Illuminate\Support\Facades\DB;
@@ -90,12 +91,13 @@ class AnnouncementController extends Controller
                 'tokens_count'    => count($tokens),
             ]);
 
-            dispatch(new SendPublicAnnouncementNotification(
+            $firebase = app(FirebaseService::class);
+            $firebase->BasicSendNotification(
                 $announcement->title ?? 'إعلان جديد',
                 $announcement->description ?? '',
                 $tokens,
                 ['announcement_id' => $announcement->id]
-            ));
+            );
 
             return response()->json([
                 'message' => 'Created SuccessFully',

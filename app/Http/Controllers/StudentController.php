@@ -7,11 +7,13 @@ use App\ApiHelper\Result;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateProfileStudent;
 use App\Http\Resources\StudentResource;
+use App\Jobs\SendPublicAnnouncementNotification;
 use App\Models\Conversation;
 use App\Models\DeviceToken;
 use App\Models\Notification;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Services\FirebaseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -174,14 +176,17 @@ class StudentController extends Controller
                 'tokens_count'   => count($tokens),
             ]);
             if (!empty($tokens)) {
-                dispatch(new SendPublicAnnouncementNotification(
+                $firebase = app(FirebaseService::class);
+                $firebase->BasicSendNotification(
                     $title,
                     $body,
                     $tokens,
-                    ['student_id' => $student->id, 'type' => 'account_activated']
-                ));
-            }
-        }
+                    [
+                        'student_id' => (string) $student->id,
+                        'type'       => 'account_activated',
+                    ]
+                );
+            }}
 
         return response()->json([
             'message' => 'Registration completed successfully',
