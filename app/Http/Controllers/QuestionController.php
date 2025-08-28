@@ -33,10 +33,10 @@ class QuestionController extends Controller
             ->paginate(10);
 
         $pagination = [
-            'total'        => $questions->total(),
+            'total' => $questions->total(),
             'current_page' => $questions->currentPage(),
-            'last_page'    => $questions->lastPage(),
-            'per_page'     => $questions->perPage(),
+            'last_page' => $questions->lastPage(),
+            'per_page' => $questions->perPage(),
         ];
 
         return ApiResponseHelper::sendResponseWithPagination(

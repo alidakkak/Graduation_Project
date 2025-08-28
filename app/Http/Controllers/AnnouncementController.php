@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAnnouncement;
 use App\Http\Resources\PublicAnnouncementResource;
-use App\Jobs\SendPublicAnnouncementNotification;
 use App\Models\Announcement;
 use App\Models\DeviceToken;
 use App\Models\Notification;
@@ -82,13 +81,13 @@ class AnnouncementController extends Controller
 
             $tokens = $tokensQuery->pluck('device_tokens.device_token')->toArray();
 
-             Notification::create([
-                'title'           => $announcement->title ?? 'إعلان جديد',
-                'body'            => $announcement->description ?? '',
+            Notification::create([
+                'title' => $announcement->title ?? 'إعلان جديد',
+                'body' => $announcement->description ?? '',
                 'announcement_id' => $announcement->id,
-                'academic_year'   => $announcement->academic_year,
-                'specialization'  => $announcement->specialization,
-                'tokens_count'    => count($tokens),
+                'academic_year' => $announcement->academic_year,
+                'specialization' => $announcement->specialization,
+                'tokens_count' => count($tokens),
             ]);
 
             $firebase = app(FirebaseService::class);

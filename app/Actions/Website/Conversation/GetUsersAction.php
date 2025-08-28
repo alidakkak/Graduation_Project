@@ -33,7 +33,7 @@ class GetUsersAction
             DB::raw("CONCAT(first_name, ' ', father_name, ' ', last_name)"),
             'LIKE',
             $search.'%'
-        )->where('verified', 1)->where('id','=!',  Auth::guard('api_student')->id());
+        )->where('verified', 1)->where('id', '=!', Auth::guard('api_student')->id());
 
         $users = $query
             ->select(

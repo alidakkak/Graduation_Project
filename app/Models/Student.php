@@ -11,8 +11,8 @@ class Student extends Authenticatable implements JWTSubject
     use HasFactory;
 
     protected $guarded = ['id'];
-    protected $hidden = ['password'];
 
+    protected $hidden = ['password'];
 
     protected $guard = 'api_student';
 

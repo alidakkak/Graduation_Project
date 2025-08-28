@@ -6,13 +6,12 @@ use App\Http\Resources\NotificationResource;
 use App\Models\Announcement;
 use App\Statuses\AcademicYear;
 use App\Statuses\Specialization;
-use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
     public function index()
     {
-        $student = auth("api_student")->user();
+        $student = auth('api_student')->user();
 
         $academicYear = $student->academic_year;
         $specialization = $student->specialization;
@@ -31,6 +30,7 @@ class NotificationController extends Controller
                         ->where('specialization', $specialization);
                 });
         })->latest()->get();
+
         return NotificationResource::collection($announcements);
     }
 }

@@ -7,7 +7,6 @@ use App\ApiHelper\Result;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateProfileStudent;
 use App\Http\Resources\StudentResource;
-use App\Jobs\SendPublicAnnouncementNotification;
 use App\Models\Conversation;
 use App\Models\DeviceToken;
 use App\Models\Notification;
@@ -68,34 +67,34 @@ class StudentController extends Controller
             'verified' => ! $student->verified,
         ]);
 
-            $tokens = DeviceToken::where('student_id', $student->id)
-                ->pluck('device_token')
-                ->filter()
-                ->unique()
-                ->values()
-                ->toArray();
+        $tokens = DeviceToken::where('student_id', $student->id)
+            ->pluck('device_token')
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
 
-            $title = 'تم تفعيل حسابك';
-            $body  = 'مرحبًا! تم تفعيل حسابك بنجاح. يمكنك الآن استخدام كل ميزات التطبيق.';
+        $title = 'تم تفعيل حسابك';
+        $body = 'مرحبًا! تم تفعيل حسابك بنجاح. يمكنك الآن استخدام كل ميزات التطبيق.';
 
-            Notification::create([
-                'title'          => $title,
-                'body'           => $body,
-                'announcement_id'     => $student->id,
-                'academic_year'  => null,
-                'specialization' => null,
-                'tokens_count'   => count($tokens),
-            ]);
-            $firebase = app(FirebaseService::class);
-            $firebase->BasicSendNotification(
-                $title,
-                $body,
-                $tokens,
-                [
-                    'student_id' => $student->id,
-                    'type'       => 'account_activated',
-                ]
-            );
+        Notification::create([
+            'title' => $title,
+            'body' => $body,
+            'announcement_id' => $student->id,
+            'academic_year' => null,
+            'specialization' => null,
+            'tokens_count' => count($tokens),
+        ]);
+        $firebase = app(FirebaseService::class);
+        $firebase->BasicSendNotification(
+            $title,
+            $body,
+            $tokens,
+            [
+                'student_id' => $student->id,
+                'type' => 'account_activated',
+            ]
+        );
 
         return response()->json([
             'message' => 'تم تحديث البيانات بنجاح',

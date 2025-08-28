@@ -11,7 +11,8 @@ class Chat implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(protected $message) {
+    public function __construct(protected $message)
+    {
         $this->message = $message->load('sender', 'replay');
 
     }
