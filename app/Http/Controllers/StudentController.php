@@ -64,9 +64,42 @@ class StudentController extends Controller
             ], 403);
         }
 
+        $wasIncomplete = ! (bool) $student->is_registration_complete;
+
         $student->update([
             'verified' => ! $student->verified,
         ]);
+
+        if ($wasIncomplete && $student->is_registration_complete) {
+            $tokens = DeviceToken::where('student_id', $student->id)
+                ->pluck('device_token')
+                ->filter()
+                ->unique()
+                ->values()
+                ->toArray();
+
+            $title = 'تم تفعيل حسابك';
+            $body  = 'مرحبًا! تم تفعيل حسابك بنجاح. يمكنك الآن استخدام كل ميزات التطبيق.';
+
+            Notification::create([
+                'title'          => $title,
+                'body'           => $body,
+                'announcement_id'     => $student->id,
+                'academic_year'  => null,
+                'specialization' => null,
+                'tokens_count'   => count($tokens),
+            ]);
+            $firebase = app(FirebaseService::class);
+            $firebase->BasicSendNotification(
+                $title,
+                $body,
+                $tokens,
+                [
+                    'student_id' => $student->id,
+                    'type'       => 'account_activated',
+                ]
+            );
+        }
 
         return response()->json([
             'message' => 'تم تحديث البيانات بنجاح',
@@ -133,8 +166,6 @@ class StudentController extends Controller
 
         $validated['subjects'] = array_unique($validated['subjects']);
 
-        $wasIncomplete = ! (bool) $student->is_registration_complete;
-
         $student->update([
             'is_registration_complete' => 1,
             'academic_year' => $validated['year'],
@@ -155,37 +186,6 @@ class StudentController extends Controller
         $conversationIds = Conversation::whereIn('subject_id', $subjects)->pluck('id')->toArray();
 
         $student->conversations()->sync($conversationIds);
-
-        if ($wasIncomplete && $student->is_registration_complete) {
-            $tokens = DeviceToken::where('student_id', $student->id)
-                ->pluck('device_token')
-                ->filter()
-                ->unique()
-                ->values()
-                ->toArray();
-
-            $title = 'تم تفعيل حسابك';
-            $body  = 'مرحبًا! تم تفعيل حسابك بنجاح. يمكنك الآن استخدام كل ميزات التطبيق.';
-
-            Notification::create([
-                'title'          => $title,
-                'body'           => $body,
-                'announcement_id'     => $student->id,
-                'academic_year'  => null,
-                'specialization' => null,
-                'tokens_count'   => count($tokens),
-            ]);
-                $firebase = app(FirebaseService::class);
-                $firebase->BasicSendNotification(
-                    $title,
-                    $body,
-                    $tokens,
-                    [
-                        'student_id' => $student->id,
-                        'type'       => 'account_activated',
-                    ]
-                );
-            }
 
         return response()->json([
             'message' => 'Registration completed successfully',
