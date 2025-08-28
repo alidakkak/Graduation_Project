@@ -64,13 +64,10 @@ class StudentController extends Controller
             ], 403);
         }
 
-        $wasIncomplete = ! (bool) $student->is_registration_complete;
-
         $student->update([
             'verified' => ! $student->verified,
         ]);
 
-        if ($wasIncomplete && $student->is_registration_complete) {
             $tokens = DeviceToken::where('student_id', $student->id)
                 ->pluck('device_token')
                 ->filter()
@@ -99,7 +96,6 @@ class StudentController extends Controller
                     'type'       => 'account_activated',
                 ]
             );
-        }
 
         return response()->json([
             'message' => 'تم تحديث البيانات بنجاح',
