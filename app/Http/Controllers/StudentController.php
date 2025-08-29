@@ -255,16 +255,16 @@ class StudentController extends Controller
                 $conversationIds = Conversation::whereIn('subject_id', $newSubjects)
                     ->pluck('id')
                     ->all();
-                if ($validated['academic_year']) {
-                    $conversationIdYear = Conversation::where('year_id', $validated['academic_year'])->pluck('id')->toArray();
-                    $student->conversations()->sync($conversationIdYear);
-
+                if (!empty($validated['academic_year'])) {
+                    $conversationIdsYear = Conversation::where('year_id', $validated['academic_year'])->pluck('id')->toArray();
+                    $student->conversations()->syncWithoutDetaching($conversationIdsYear);
                 }
-                if ($validated['specialization']) {
-                    $conversationIdYear = Conversation::where('specialization', $validated['specialization'])->pluck('id')->toArray();
-                    $student->conversations()->sync($conversationIdYear);
 
+                if (!empty($validated['specialization'])) {
+                    $conversationIdsSpec = Conversation::where('specialization', $validated['specialization'])->pluck('id')->toArray();
+                    $student->conversations()->syncWithoutDetaching($conversationIdsSpec);
                 }
+
                 if (! empty($conversationIds)) {
                     $student->conversations()->syncWithoutDetaching($conversationIds);
                 }
