@@ -33,7 +33,7 @@ class ConversationYearSeeder extends Seeder
         ];
         $conversations2 = [];
         foreach ($specializations as $index => $specialization) {
-            $specialization[$index] = [
+            $conversations2[$index] = [
                 'label' => $specialization['name'],
                 'specialization' => $specialization['id'],
             ];
