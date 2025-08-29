@@ -46,9 +46,9 @@ class CreateMessageJob implements ShouldQueue
 
         // ✅ تحديث conversation.last_message_id لو مو hate
         if (! $this->isHate) {
-                        Conversation::where('id', $message->conversation_id)->update(['last_message_id' => $message->id]);
+            Conversation::where('id', $message->conversation_id)->update(['last_message_id' => $message->id]);
 
-        }$otherStudentIds = Conversation::findOrFail($message->conversation_id)->students()->where('students.id', '!=',$message->student_id)->pluck('students.id');
+        }$otherStudentIds = Conversation::findOrFail($message->conversation_id)->students()->where('students.id', '!=', $message->student_id)->pluck('students.id');
 
         $recipientsData = $otherStudentIds->map(fn ($sid) => [
             'student_id' => $sid,
