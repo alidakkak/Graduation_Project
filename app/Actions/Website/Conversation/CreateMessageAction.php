@@ -58,8 +58,8 @@ class CreateMessageAction
             event(new Chat($message));
         }
 //        CreateMessageJob::dispatch($message, $isHate);
-
         return ApiResponseHelper::sendResponse(new Result(MessageResource::make($message)));
+
 
         //        if (! $isHate) {
         //            Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
