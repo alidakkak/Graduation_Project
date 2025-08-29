@@ -17,12 +17,14 @@ class Student extends Authenticatable implements JWTSubject
     protected $guard = 'api_student';
 
     public function setImageAttribute($image)
-    {
-        $newImageName = uniqid().'_'.'students_image'.'.'.$image->extension();
+    {if (is_string($image)) {
+        $this->attributes['image'] = $image;
+    }else {
+        $newImageName = uniqid() . '_' . 'students_image' . '.' . $image->extension();
         $image->move(public_path('students_image'), $newImageName);
 
-        return $this->attributes['image'] = '/'.'students_image'.'/'.$newImageName;
-    }
+        return $this->attributes['image'] = '/' . 'students_image' . '/' . $newImageName;
+    }}
 
     public function setProfileImageAttribute($image)
     {
