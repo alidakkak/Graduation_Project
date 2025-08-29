@@ -57,7 +57,7 @@ class CreateMessageAction
         if (! $isHate) {
             event(new Chat($message));
         }
-        CreateMessageJob::dispatch($message, $isHate);
+//        CreateMessageJob::dispatch($message, $isHate);
 
         return ApiResponseHelper::sendResponse(new Result(MessageResource::make($message)));
 
