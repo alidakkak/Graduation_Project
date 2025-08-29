@@ -6,6 +6,7 @@ use App\ApiHelper\ApiResponseHelper;
 use App\ApiHelper\Result;
 use App\Events\Chat;
 use App\Http\Resources\MessageResource;
+use App\Jobs\CreateMessageJob;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Recipient;
@@ -29,7 +30,6 @@ class CreateMessageAction
             'type' => 'nullable|string|in:text,attachment',
         ]);
         $studentId = Auth::guard('api_student')->id();
-        // فحص الكراهية
         $isHate = false;
         if (($data['type'] ?? 'text') === 'text') {
             try {
@@ -55,41 +55,43 @@ class CreateMessageAction
             'hate' => $isHate,
         ]);
         if (! $isHate) {
-
-            Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
-        }
-        $otherStudentIds = Conversation::findOrFail($data['conversation_id'])->students()->where('students.id', '!=', $studentId)->pluck('students.id');
-        $recipientsData = $otherStudentIds->map(function ($sid) use ($message, $data) {
-            return [
-                'student_id' => $sid,
-                'conversation_id' => $data['conversation_id'],
-                'message_id' => $message->id, ];
-        })->toArray();
-        Recipient::insert($recipientsData);
-
-        if (! $isHate) {
             event(new Chat($message));
         }
-        if (($data['type'] ?? 'text') === 'text' && ! $isHate) {
-            try {
-                $response = Http::post('http://89.116.23.191:8100/api/add_messages', [
-                    'messages' => [
-                        [
-                            'text' => $data['body'],
-                            'message_id' => (string) $message->id,
-                            'sender' => $message->sender?->first_name ?? ' ',
-                            'timestamp' => now()->toIso8601String(),
-                            'group_id' => (string) $data['conversation_id'],
-                        ],
-                    ],
-                ]);
-
-            } catch (\Exception $e) {
-                \Log::error('Hate speech detection API failed: '.$e->getMessage());
-            }
-        }
-
+        CreateMessageJob::dispatch($message, $isHate);
         return ApiResponseHelper::sendResponse(new Result(MessageResource::make($message)));
+
+
+        //        if (! $isHate) {
+        //            Conversation::where('id', $data['conversation_id'])->update(['last_message_id' => $message->id]);
+        //        }
+//        $otherStudentIds = Conversation::findOrFail($data['conversation_id'])->students()->where('students.id', '!=', $studentId)->pluck('students.id');
+//        $recipientsData = $otherStudentIds->map(function ($sid) use ($message, $data) {
+//            return [
+//                'student_id' => $sid,
+//                'conversation_id' => $data['conversation_id'],
+//                'message_id' => $message->id, ];
+//        })->toArray();
+//        Recipient::insert($recipientsData);
+
+//        if (($data['type'] ?? 'text') === 'text' && ! $isHate) {
+//            try {
+//                $response = Http::post('http://89.116.23.191:8100/api/add_messages', [
+//                    'messages' => [
+//                        [
+//                            'text' => $data['body'],
+//                            'message_id' => (string) $message->id,
+//                            'sender' => $message->sender?->first_name ?? ' ',
+//                            'timestamp' => now()->toIso8601String(),
+//                            'group_id' => (string) $data['conversation_id'],
+//                        ],
+//                    ],
+//                ]);
+//
+//            } catch (\Exception $e) {
+//                \Log::error('Hate speech detection API failed: '.$e->getMessage());
+//            }
+//        }
+
 
     }
 }
