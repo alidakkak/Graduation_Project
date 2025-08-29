@@ -5,12 +5,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Student;
+use App\Models\Conversation;
+use App\Models\Subject;
 
 class StudentSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('students')->insert([
+        $studentsData = [
             [
                 'first_name' => 'Ali',
                 'last_name' => 'Ahmed',
@@ -71,6 +74,30 @@ class StudentSeeder extends Seeder
                 'academic_year'=>1,
                 'specialization'=>4,
             ],
-        ]);
+        ];
+
+        foreach ($studentsData as $data) {
+            // إنشاء الطالب
+            $student = Student::create($data);
+
+            // جلب جميع المواد الخاصة بالسنة الدراسية والتخصص
+            $subjects = Subject::where('year_id', $data['academic_year'])
+                ->where('specialization', $data['specialization'])
+                ->pluck('id')
+                ->toArray();
+
+            // ربط الطالب بالمواد
+            $student->subjects()->sync($subjects);
+
+            // جلب كل الـ conversations الخاصة بالمواد أو السنة أو التخصص
+            $conversationIds = Conversation::whereIn('subject_id', $subjects)
+                ->orWhere('year_id', $data['academic_year'])
+                ->orWhere('specialization', $data['specialization'])
+                ->pluck('id')
+                ->toArray();
+
+            // ربط الطالب بالـ conversations بدون حذف أي روابط مستقبلية
+            $student->conversations()->syncWithoutDetaching($conversationIds);
+        }
     }
 }
