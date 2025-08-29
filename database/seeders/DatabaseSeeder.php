@@ -18,6 +18,10 @@ class DatabaseSeeder extends Seeder
             ExamSchedulesSeeder::class,
             AdminSedder::class,
             AnnouncementSeeder::class,
+            LostItemsSeeder::class,
+            ConversationYearSeeder::class,
+
+
         ]);
     }
 }
