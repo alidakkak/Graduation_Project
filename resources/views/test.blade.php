@@ -11,7 +11,7 @@
       cluster: 'ap2'
     });
 
-        var channel = pusher.subscribe('chat-room.21');
+        var channel = pusher.subscribe('chat-room.102');
         channel.bind('new-message', function(data) {
           alert(JSON.stringify(data));
         });
