@@ -34,8 +34,8 @@ class ConversationYearSeeder extends Seeder
         $conversations2 = [];
         foreach ($specializations as $index => $specialization) {
             $specialization[$index] = [
-                'label' => $year['name'],
-                'specialization' => $year['id'],
+                'label' => $specialization['name'],
+                'specialization' => $specialization['id'],
             ];
         }
         DB::table('conversations')->insert($conversations2);
