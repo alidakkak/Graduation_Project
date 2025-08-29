@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Recipient;
 use Illuminate\Bus\Queueable;
@@ -9,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -49,11 +49,7 @@ class CreateMessageJob implements ShouldQueue
             $message->conversation?->update([
                 'last_message_id' => $message->id,
             ]);
-        }
-        $otherStudentIds = DB::table('conversation_student')
-            ->where('conversation_id', $message->conversation_id)
-            ->where('student_id', '!=', $message->student_id)
-            ->pluck('student_id');
+        }$otherStudentIds = Conversation::findOrFail($message->conversation_id)->students()->where('students.id', '!=',$message->student_id)->pluck('students.id');
 
         $recipientsData = $otherStudentIds->map(fn ($sid) => [
             'student_id' => $sid,
