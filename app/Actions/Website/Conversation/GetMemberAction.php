@@ -15,7 +15,7 @@ class GetMemberAction
         $members = $conversation->members()->get()->map(function ($member) {
             return [
                 'id' => $member->id,
-                'name' => $member->father_name.' '.$member->last_name,
+                'name' => $member->first_name.' '. $member->father_name.' '.$member->last_name,
             ];
         });
 
